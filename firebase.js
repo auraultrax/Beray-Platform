@@ -3,7 +3,7 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBBPmjL_OSdBWsUkeS5ZS9-YnVPqyhdko',
+  apiKey: 'AIzaSyBBPmYjL_OSdBWsUkeS5ZS9-YnVPqyhdko',
   authDomain: 'sistem-16411.firebaseapp.com',
   projectId: 'sistem-16411',
   storageBucket: 'sistem-16411.firebasestorage.app',
