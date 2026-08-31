@@ -1,0 +1,92 @@
+rules_version = '2';
+
+service firebase.storage {
+
+  match /b/{bucket}/o {
+
+
+    /* =====================================================
+       YARDIMCI FONKSİYONLAR
+    ===================================================== */
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+
+    function teacher() {
+
+      return signedIn()
+
+        && firestore.get(
+          /databases/(default)
+          /documents/users/$(request.auth.uid)
+        ).data.role in ["teacher", "admin"];
+
+    }
+
+
+
+    /* =====================================================
+       DERS DOSYALARI
+    ===================================================== */
+
+    match /courses/{courseId}/{fileName=**} {
+
+      /*
+       * Öğrenci ve öğretmen dosyayı okuyabilir.
+       */
+      allow read:
+        if signedIn();
+
+
+      /*
+       * Yalnızca öğretmen/admin yükleyebilir.
+       */
+      allow write:
+        if teacher();
+
+
+      /*
+       * Yalnızca öğretmen/admin silebilir.
+       */
+      allow delete:
+        if teacher();
+
+    }
+
+
+
+    /* =====================================================
+       GENEL YÜKLEMELER
+    ===================================================== */
+
+    match /uploads/{userId}/{fileName=**} {
+
+      /*
+       * Kullanıcı kendi dosyasını yükleyebilir;
+       * öğretmen/admin de yükleyebilir.
+       */
+      allow write:
+        if signedIn()
+        && (
+          request.auth.uid == userId
+          || teacher()
+        );
+
+
+      allow read:
+        if signedIn();
+
+
+      allow delete:
+        if signedIn()
+        && (
+          request.auth.uid == userId
+          || teacher()
+        );
+
+    }
+
+  }
+}
