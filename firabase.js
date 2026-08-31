@@ -1,0 +1,104 @@
+```javascript
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getAuth
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+import {
+    getFirestore
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+import {
+    getStorage
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+
+
+/*
+|--------------------------------------------------------------------------
+| BERAY FIREBASE CONFIG
+|--------------------------------------------------------------------------
+*/
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyBBPmjL_OSdBWsUkeS5ZS9-YnVPqyhdko",
+
+    authDomain:
+        "sistem-16411.firebaseapp.com",
+
+    projectId:
+        "sistem-16411",
+
+    storageBucket:
+        "sistem-16411.firebasestorage.app",
+
+    messagingSenderId:
+        "1036642820709",
+
+    appId:
+        "1:1036642820709:web:dfa1cd766ff6956580dc8c"
+
+};
+
+
+
+/*
+|--------------------------------------------------------------------------
+| FIREBASE UYGULAMASI
+|--------------------------------------------------------------------------
+*/
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATION
+|--------------------------------------------------------------------------
+*/
+
+export const auth =
+    getAuth(app);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| FIRESTORE
+|--------------------------------------------------------------------------
+*/
+
+export const db =
+    getFirestore(app);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| STORAGE
+|--------------------------------------------------------------------------
+*/
+
+export const storage =
+    getStorage(app);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| APP
+|--------------------------------------------------------------------------
+*/
+
+export default app;
+```
