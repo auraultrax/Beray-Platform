@@ -7,1824 +7,1444 @@
 <title>Beray Eğitim Platformu</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-    --yellow:#ffd21f;
-    --yellow2:#ffb800;
-    --bg:#090a0f;
-    --card:#11131a;
-    --card2:#171922;
-    --text:#fff;
-    --muted:#9297a5;
-    --border:#272a35;
-    --danger:#ff5252;
-    --success:#35d07f;
+ --bg:#07080c;
+ --panel:#101218;
+ --panel2:#151821;
+ --border:#272b36;
+ --yellow:#ffd21f;
+ --text:#fff;
+ --muted:#9298a6;
+ --green:#38d996;
+ --red:#ff5c67;
 }
-
 body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:Inter,Arial,sans-serif;
-    min-height:100vh;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ min-height:100vh;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+/* LOGO */
+.logo{display:flex;align-items:center;gap:10px}
+.crescent{
+ width:38px;height:38px;border-radius:50%;
+ background:var(--yellow);
+ position:relative;
+ box-shadow:0 0 25px rgba(255,210,31,.2)
+}
+.crescent:after{
+ content:"";
+ position:absolute;
+ width:38px;height:38px;border-radius:50%;
+ background:var(--bg);
+ left:12px;top:-7px
+}
+.logo-name{
+ font-size:25px;
+ font-weight:900;
+ letter-spacing:-1px
+}
+.logo-name span{color:var(--yellow)}
+
+/* AUTH */
+#auth{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:
+ radial-gradient(circle at 20% 10%,rgba(255,210,31,.09),transparent 30%),
+ radial-gradient(circle at 90% 90%,rgba(255,210,31,.06),transparent 30%);
+}
+.auth-card{
+ width:100%;
+ max-width:430px;
+ padding:38px;
+ border:1px solid var(--border);
+ border-radius:24px;
+ background:rgba(16,18,24,.96);
+ box-shadow:0 30px 100px rgba(0,0,0,.45)
+}
+.auth-logo{justify-content:center;margin-bottom:35px}
+.auth-card h1{text-align:center;font-size:29px;margin-bottom:8px}
+.auth-card .desc{
+ color:var(--muted);
+ text-align:center;
+ margin-bottom:27px
+}
+.field{margin-bottom:17px}
+.field label{
+ display:block;
+ font-size:13px;
+ color:#d9dbe1;
+ margin-bottom:7px
+}
+.field input{
+ width:100%;
+ border:1px solid var(--border);
+ outline:none;
+ background:#0a0c11;
+ color:white;
+ border-radius:11px;
+ padding:14px
+}
+.field input:focus{
+ border-color:var(--yellow);
+ box-shadow:0 0 0 3px rgba(255,210,31,.08)
+}
+.primary{
+ width:100%;
+ padding:14px;
+ border:0;
+ border-radius:11px;
+ background:var(--yellow);
+ color:#111;
+ font-weight:900;
+}
+.primary:hover{filter:brightness(1.06)}
+.switch{
+ text-align:center;
+ color:var(--muted);
+ margin-top:19px;
+ font-size:14px
+}
+.switch button{
+ border:0;
+ background:none;
+ color:var(--yellow);
+ font-weight:800
+}
+.auth-error{
+ background:rgba(255,92,103,.1);
+ border:1px solid rgba(255,92,103,.25);
+ color:#ff8991;
+ padding:10px;
+ border-radius:9px;
+ margin-bottom:15px;
+ font-size:13px
 }
 
-button,input{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.hidden{
-    display:none!important;
-}
-
-/* ================= LOGO ================= */
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.logo-icon{
-    width:42px;
-    height:42px;
-    position:relative;
-    overflow:hidden;
-}
-
-.logo-icon:before{
-    content:"";
-    position:absolute;
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    background:var(--yellow);
-    top:4px;
-    left:1px;
-}
-
-.logo-icon:after{
-    content:"";
-    position:absolute;
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    background:var(--bg);
-    top:-1px;
-    left:13px;
-}
-
-.logo-text{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:-1px;
-}
-
-.logo-text span{
-    color:var(--yellow);
-}
-
-/* ================= AUTH ================= */
-
-.auth-page{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:25px;
-    background:
-        radial-gradient(circle at 20% 20%,rgba(255,210,31,.08),transparent 30%),
-        radial-gradient(circle at 80% 80%,rgba(255,210,31,.05),transparent 30%),
-        var(--bg);
-}
-
-.auth-box{
-    width:100%;
-    max-width:430px;
-    background:rgba(17,19,26,.95);
-    border:1px solid var(--border);
-    border-radius:24px;
-    padding:38px;
-    box-shadow:0 25px 80px rgba(0,0,0,.4);
-}
-
-.auth-logo{
-    justify-content:center;
-    margin-bottom:35px;
-}
-
-.auth-title{
-    text-align:center;
-    font-size:28px;
-    margin-bottom:8px;
-}
-
-.auth-desc{
-    color:var(--muted);
-    text-align:center;
-    margin-bottom:28px;
-}
-
-.form-group{
-    margin-bottom:17px;
-}
-
-.form-group label{
-    display:block;
-    color:#dfe1e8;
-    font-size:13px;
-    margin-bottom:8px;
-}
-
-.form-group input{
-    width:100%;
-    padding:14px 15px;
-    border-radius:12px;
-    border:1px solid var(--border);
-    background:#0c0e14;
-    color:white;
-    outline:none;
-    transition:.2s;
-}
-
-.form-group input:focus{
-    border-color:var(--yellow);
-    box-shadow:0 0 0 3px rgba(255,210,31,.08);
-}
-
-.main-btn{
-    width:100%;
-    border:0;
-    border-radius:12px;
-    padding:14px;
-    background:var(--yellow);
-    color:#111;
-    font-weight:800;
-    transition:.2s;
-}
-
-.main-btn:hover{
-    background:#ffe05b;
-    transform:translateY(-1px);
-}
-
-.switch-auth{
-    text-align:center;
-    margin-top:20px;
-    color:var(--muted);
-    font-size:14px;
-}
-
-.switch-auth button{
-    border:0;
-    background:none;
-    color:var(--yellow);
-    font-weight:700;
-}
-
-.error{
-    background:rgba(255,82,82,.1);
-    border:1px solid rgba(255,82,82,.3);
-    color:#ff8585;
-    padding:10px;
-    border-radius:10px;
-    margin-bottom:15px;
-    font-size:13px;
-}
-
-/* ================= APP ================= */
-
-.app{
-    min-height:100vh;
-    display:flex;
-}
-
+/* APP */
+.app{display:flex;min-height:100vh}
 .sidebar{
-    width:245px;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    border-right:1px solid var(--border);
-    background:#0c0e13;
-    padding:25px 15px;
-    z-index:10;
+ position:fixed;
+ left:0;top:0;bottom:0;
+ width:245px;
+ background:#0b0d12;
+ border-right:1px solid var(--border);
+ padding:24px 15px;
+ z-index:20
 }
-
-.sidebar .logo{
-    padding:0 10px 28px;
-}
-
-.nav{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-}
-
+.sidebar .logo{padding:0 10px 30px}
+.nav{display:flex;flex-direction:column;gap:5px}
 .nav button{
-    width:100%;
-    padding:13px 15px;
-    border:0;
-    border-radius:11px;
-    background:transparent;
-    color:#9da1ad;
-    text-align:left;
-    transition:.2s;
+ width:100%;
+ padding:13px 14px;
+ border:0;
+ border-radius:10px;
+ background:none;
+ color:#989daa;
+ text-align:left
 }
-
-.nav button:hover,
-.nav button.active{
-    background:#1a1c24;
-    color:white;
+.nav button:hover,.nav button.active{
+ background:#181b23;
+ color:#fff
 }
-
-.nav button.active{
-    box-shadow:inset 3px 0 var(--yellow);
-}
-
-.nav-icon{
-    margin-right:10px;
-}
-
+.nav button.active{box-shadow:inset 3px 0 var(--yellow)}
+.nav-icon{width:25px;display:inline-block}
 .logout{
-    position:absolute;
-    bottom:25px;
-    left:15px;
-    right:15px;
+ position:absolute;
+ left:15px;right:15px;bottom:20px
 }
-
 .logout button{
-    width:100%;
-    border:1px solid var(--border);
-    background:#11131a;
-    color:#aaa;
-    border-radius:11px;
-    padding:12px;
+ width:100%;
+ padding:12px;
+ border-radius:10px;
+ border:1px solid var(--border);
+ background:#11131a;
+ color:#aaa
 }
-
 .main{
-    margin-left:245px;
-    width:calc(100% - 245px);
+ width:calc(100% - 245px);
+ margin-left:245px
 }
-
 .topbar{
-    height:75px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 35px;
-    border-bottom:1px solid var(--border);
-    background:rgba(9,10,15,.85);
-    backdrop-filter:blur(10px);
-    position:sticky;
-    top:0;
-    z-index:5;
+ height:72px;
+ position:sticky;
+ top:0;
+ z-index:10;
+ background:rgba(7,8,12,.88);
+ backdrop-filter:blur(12px);
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 32px
 }
-
-.menu-btn{
-    display:none;
+.user{
+ display:flex;
+ align-items:center;
+ gap:10px
 }
-
-.user-mini{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
 .avatar{
-    width:38px;
-    height:38px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:var(--yellow);
-    color:#111;
-    font-weight:900;
+ width:38px;height:38px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:var(--yellow);
+ color:#111;
+ font-weight:900
 }
-
+.menu{display:none;background:none;border:0;color:white;font-size:25px}
 .content{
-    padding:35px;
-    max-width:1400px;
-    margin:auto;
+ max-width:1400px;
+ margin:auto;
+ padding:32px
 }
+.page{display:none}
+.page.active{display:block}
+.title{font-size:30px;font-weight:900;margin-bottom:7px}
+.subtitle{color:var(--muted);margin-bottom:25px}
 
-.page{
-    display:none;
+/* DASHBOARD */
+.hero{
+ position:relative;
+ overflow:hidden;
+ padding:30px;
+ border:1px solid var(--border);
+ border-radius:20px;
+ background:linear-gradient(110deg,#171a23,#101218);
+ margin-bottom:20px
 }
-
-.page.active{
-    display:block;
+.hero:after{
+ content:"☾";
+ position:absolute;
+ right:30px;
+ top:-50px;
+ font-size:180px;
+ color:rgba(255,210,31,.055)
 }
-
-.page-title{
-    font-size:30px;
-    font-weight:800;
-    margin-bottom:7px;
-}
-
-.page-subtitle{
-    color:var(--muted);
-    margin-bottom:28px;
-}
-
-/* ================= DASHBOARD ================= */
-
-.welcome{
-    padding:30px;
-    border-radius:20px;
-    background:
-        linear-gradient(110deg,#191b24,#11131a);
-    border:1px solid var(--border);
-    margin-bottom:25px;
-    position:relative;
-    overflow:hidden;
-}
-
-.welcome:after{
-    content:"☾";
-    position:absolute;
-    right:30px;
-    top:-35px;
-    font-size:160px;
-    color:rgba(255,210,31,.07);
-}
-
-.welcome h1{
-    font-size:29px;
-    margin-bottom:8px;
-}
-
-.welcome p{
-    color:var(--muted);
-}
-
+.hero h1{font-size:29px;margin-bottom:8px}
+.hero p{color:var(--muted)}
 .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-bottom:25px;
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:15px;
+ margin-bottom:25px
 }
-
 .stat{
-    padding:21px;
-    border:1px solid var(--border);
-    background:var(--card);
-    border-radius:17px;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:16px;
+ padding:20px
 }
-
-.stat-title{
-    color:var(--muted);
-    font-size:13px;
-    margin-bottom:12px;
-}
-
-.stat-value{
-    font-size:28px;
-    font-weight:900;
-}
-
-.stat-value.yellow{
-    color:var(--yellow);
-}
-
+.stat small{color:var(--muted);display:block;margin-bottom:10px}
+.stat strong{font-size:27px}
+.yellow{color:var(--yellow)}
 .grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:16px
 }
-
 .card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:17px;
-    padding:22px;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:16px;
+ padding:21px
 }
-
-.card h3{
-    margin-bottom:8px;
-}
-
+.card h3{margin-bottom:8px}
 .card p{
-    color:var(--muted);
-    font-size:14px;
-    line-height:1.5;
+ color:var(--muted);
+ line-height:1.5;
+ font-size:14px
 }
-
-.progress{
-    height:7px;
-    border-radius:20px;
-    background:#292c35;
-    margin:17px 0 10px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    background:var(--yellow);
-    border-radius:20px;
-    transition:.5s;
-}
-
-.progress-text{
-    display:flex;
-    justify-content:space-between;
-    font-size:12px;
-    color:var(--muted);
-}
-
-/* ================= LESSONS ================= */
-
-.subject-card{
-    position:relative;
-    overflow:hidden;
-}
-
 .subject-icon{
-    width:50px;
-    height:50px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:14px;
-    background:rgba(255,210,31,.1);
-    font-size:25px;
-    margin-bottom:18px;
+ width:48px;height:48px;
+ border-radius:13px;
+ background:rgba(255,210,31,.1);
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ font-size:24px;
+ margin-bottom:15px
+}
+.progress{
+ width:100%;
+ height:7px;
+ border-radius:20px;
+ background:#292d36;
+ margin:17px 0 9px;
+ overflow:hidden
+}
+.progress-bar{
+ height:100%;
+ background:var(--yellow);
+ border-radius:20px;
+ transition:.4s
+}
+.progress-info{
+ display:flex;
+ justify-content:space-between;
+ color:var(--muted);
+ font-size:12px
+}
+.secondary{
+ margin-top:15px;
+ padding:10px 14px;
+ background:#181b23;
+ border:1px solid var(--border);
+ color:white;
+ border-radius:9px
+}
+.secondary:hover{
+ border-color:var(--yellow);
+ color:var(--yellow)
 }
 
-.subject-card button,
-.test-card button{
-    margin-top:18px;
-    padding:10px 15px;
-    border:1px solid var(--border);
-    background:#191b23;
-    color:white;
-    border-radius:10px;
+/* TEST */
+.test{
+ margin-bottom:12px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:20px
 }
+.test-meta{color:var(--muted);font-size:13px}
+.test-score{text-align:right}
+.test-score strong{color:var(--yellow);font-size:21px}
 
-.subject-card button:hover,
-.test-card button:hover{
-    border-color:var(--yellow);
-    color:var(--yellow);
+/* QUIZ */
+.quiz{max-width:800px;margin:auto}
+.quiz-head{
+ display:flex;
+ justify-content:space-between;
+ color:var(--muted);
+ margin-bottom:13px
 }
-
-/* ================= TEST ================= */
-
-.test-card{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.test-info h3{
-    margin-bottom:7px;
-}
-
-.test-info p{
-    color:var(--muted);
-    font-size:13px;
-}
-
-.test-score{
-    text-align:right;
-    min-width:100px;
-}
-
-.test-score strong{
-    color:var(--yellow);
-    font-size:22px;
-}
-
-/* ================= QUIZ ================= */
-
-.quiz{
-    max-width:800px;
-    margin:auto;
-}
-
-.quiz-top{
-    display:flex;
-    justify-content:space-between;
-    color:var(--muted);
-    margin-bottom:18px;
-}
-
 .question{
-    background:var(--card);
-    border:1px solid var(--border);
-    padding:28px;
-    border-radius:18px;
+ margin-top:20px;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:28px
 }
-
-.question h2{
-    font-size:21px;
-    margin-bottom:22px;
-    line-height:1.5;
-}
-
-.answers{
-    display:grid;
-    gap:10px;
-}
-
+.question h2{line-height:1.5;margin-bottom:22px}
+.answers{display:grid;gap:10px}
 .answer{
-    border:1px solid var(--border);
-    background:#171922;
-    color:white;
-    padding:14px;
-    border-radius:11px;
-    text-align:left;
-    transition:.2s;
+ text-align:left;
+ padding:14px;
+ border-radius:10px;
+ border:1px solid var(--border);
+ background:#171a22;
+ color:white
 }
-
-.answer:hover{
-    border-color:var(--yellow);
-}
-
+.answer:hover{border-color:var(--yellow)}
 .answer.correct{
-    border-color:var(--success);
-    background:rgba(53,208,127,.1);
+ border-color:var(--green);
+ background:rgba(56,217,150,.1)
 }
-
 .answer.wrong{
-    border-color:var(--danger);
-    background:rgba(255,82,82,.1);
+ border-color:var(--red);
+ background:rgba(255,92,103,.1)
+}
+.next{
+ width:100%;
+ padding:14px;
+ border:0;
+ border-radius:10px;
+ background:var(--yellow);
+ color:#111;
+ font-weight:900;
+ margin-top:15px
 }
 
-.quiz-next{
-    margin-top:18px;
-    width:100%;
-    padding:14px;
-    border:0;
-    border-radius:11px;
-    background:var(--yellow);
-    font-weight:800;
+/* PROFILE */
+.profile{
+ max-width:700px
 }
-
-/* ================= PROFILE ================= */
-
-.profile-box{
-    max-width:650px;
+.profile-head{
+ display:flex;
+ gap:18px;
+ align-items:center;
+ padding-bottom:23px;
+ border-bottom:1px solid var(--border);
+ margin-bottom:5px
 }
-
-.profile-row{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    padding:20px 0;
-    border-bottom:1px solid var(--border);
-}
-
 .big-avatar{
-    width:75px;
-    height:75px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:var(--yellow);
-    color:#111;
-    font-size:30px;
-    font-weight:900;
+ width:75px;height:75px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:var(--yellow);
+ color:#111;
+ font-size:30px;
+ font-weight:900
+}
+.profile-head p{color:var(--muted);margin-top:5px}
+.profile-row{
+ padding:19px 0;
+ border-bottom:1px solid var(--border);
+ display:flex;
+ justify-content:space-between
+}
+.profile-row span{color:var(--muted)}
+
+/* ACHIEVEMENT */
+.locked{opacity:.4}
+.badge{
+ font-size:42px;
+ margin-bottom:13px
 }
 
-.profile-info h2{
-    margin-bottom:5px;
+/* TOAST */
+#toast{
+ position:fixed;
+ right:22px;
+ bottom:22px;
+ background:#181b23;
+ border:1px solid var(--border);
+ border-radius:11px;
+ padding:14px 18px;
+ transform:translateY(80px);
+ opacity:0;
+ transition:.25s;
+ z-index:100
 }
+#toast.show{transform:translateY(0);opacity:1}
 
-.profile-info p{
-    color:var(--muted);
-}
-
-/* ================= TOAST ================= */
-
-.toast{
-    position:fixed;
-    right:25px;
-    bottom:25px;
-    background:#181a22;
-    border:1px solid var(--border);
-    padding:15px 20px;
-    border-radius:12px;
-    box-shadow:0 15px 40px rgba(0,0,0,.4);
-    transform:translateY(100px);
-    opacity:0;
-    transition:.3s;
-    z-index:100;
-}
-
-.toast.show{
-    transform:translateY(0);
-    opacity:1;
-}
-
-/* ================= RESPONSIVE ================= */
-
+/* RESPONSIVE */
 @media(max-width:900px){
-
-    .sidebar{
-        transform:translateX(-100%);
-        transition:.25s;
-    }
-
-    .sidebar.open{
-        transform:translateX(0);
-    }
-
-    .main{
-        margin-left:0;
-        width:100%;
-    }
-
-    .menu-btn{
-        display:block;
-        background:none;
-        border:0;
-        color:white;
-        font-size:24px;
-    }
-
-    .topbar{
-        padding:0 18px;
-    }
-
-    .content{
-        padding:22px 16px;
-    }
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
+ .sidebar{transform:translateX(-100%);transition:.25s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;width:100%}
+ .menu{display:block}
+ .topbar{padding:0 18px}
+ .content{padding:22px 16px}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .grid{grid-template-columns:1fr}
 }
-
 @media(max-width:550px){
-
-    .auth-box{
-        padding:25px 20px;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-    }
-
-    .stat{
-        padding:16px;
-    }
-
-    .stat-value{
-        font-size:23px;
-    }
-
-    .welcome{
-        padding:22px;
-    }
-
-    .welcome h1{
-        font-size:23px;
-    }
-
-    .test-card{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .test-score{
-        text-align:left;
-    }
+ .auth-card{padding:25px 20px}
+ .stats{gap:9px}
+ .stat{padding:15px}
+ .stat strong{font-size:22px}
+ .hero{padding:22px}
+ .hero h1{font-size:23px}
+ .test{flex-direction:column;align-items:flex-start}
+ .test-score{text-align:left}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= AUTH ================= -->
+<!-- AUTH -->
+<div id="auth">
 
-<div id="authPage" class="auth-page">
+ <div class="auth-card">
 
-    <div class="auth-box">
+  <div class="logo auth-logo">
+   <div class="crescent"></div>
+   <div class="logo-name">Bera<span>y</span></div>
+  </div>
 
-        <div class="logo auth-logo">
-            <div class="logo-icon"></div>
-            <div class="logo-text">Bera<span>y</span></div>
-        </div>
+  <div id="loginBox">
 
-        <div id="loginForm">
+   <h1>Beray'a Hoş Geldin</h1>
+   <p class="desc">Eğitim yolculuğuna devam et.</p>
 
-            <h1 class="auth-title">Hoş Geldin</h1>
-            <p class="auth-desc">Beray Eğitim Platformu'na giriş yap</p>
+   <div id="loginError"></div>
 
-            <div id="loginError"></div>
+   <div class="field">
+    <label>E-posta</label>
+    <input id="loginEmail" type="email" autocomplete="email">
+   </div>
 
-            <div class="form-group">
-                <label>E-posta</label>
-                <input id="loginEmail" type="email" placeholder="ornek@mail.com">
-            </div>
+   <div class="field">
+    <label>Şifre</label>
+    <input id="loginPassword" type="password">
+   </div>
 
-            <div class="form-group">
-                <label>Şifre</label>
-                <input id="loginPassword" type="password" placeholder="••••••••">
-            </div>
+   <button class="primary" onclick="login()">Giriş Yap</button>
 
-            <button class="main-btn" onclick="login()">Giriş Yap</button>
+   <div class="switch">
+    Hesabın yok mu?
+    <button onclick="showRegister()">Kayıt Ol</button>
+   </div>
 
-            <div class="switch-auth">
-                Hesabın yok mu?
-                <button onclick="showRegister()">Kayıt Ol</button>
-            </div>
+  </div>
 
-        </div>
+  <div id="registerBox" class="hidden">
 
-        <div id="registerForm" class="hidden">
+   <h1>Hesap Oluştur</h1>
+   <p class="desc">Beray Eğitim Platformu'na katıl.</p>
 
-            <h1 class="auth-title">Hesap Oluştur</h1>
-            <p class="auth-desc">Beray ailesine katıl</p>
+   <div id="registerError"></div>
 
-            <div id="registerError"></div>
+   <div class="field">
+    <label>Ad Soyad</label>
+    <input id="registerName" type="text">
+   </div>
 
-            <div class="form-group">
-                <label>Ad Soyad</label>
-                <input id="registerName" type="text" placeholder="Ad Soyad">
-            </div>
+   <div class="field">
+    <label>E-posta</label>
+    <input id="registerEmail" type="email">
+   </div>
 
-            <div class="form-group">
-                <label>E-posta</label>
-                <input id="registerEmail" type="email" placeholder="ornek@mail.com">
-            </div>
+   <div class="field">
+    <label>Şifre</label>
+    <input id="registerPassword" type="password">
+   </div>
 
-            <div class="form-group">
-                <label>Şifre</label>
-                <input id="registerPassword" type="password" placeholder="En az 6 karakter">
-            </div>
+   <button class="primary" onclick="register()">Kayıt Ol</button>
 
-            <button class="main-btn" onclick="register()">Hesap Oluştur</button>
+   <div class="switch">
+    Zaten hesabın var mı?
+    <button onclick="showLogin()">Giriş Yap</button>
+   </div>
 
-            <div class="switch-auth">
-                Zaten hesabın var mı?
-                <button onclick="showLogin()">Giriş Yap</button>
-            </div>
+  </div>
 
-        </div>
+ </div>
+
+</div>
+
+
+<!-- APP -->
+<div id="app" class="app hidden">
+
+ <aside id="sidebar" class="sidebar">
+
+  <div class="logo">
+   <div class="crescent"></div>
+   <div class="logo-name">Bera<span>y</span></div>
+  </div>
+
+  <nav class="nav">
+
+   <button class="active" onclick="page('home',this)">
+    <span class="nav-icon">⌂</span>Ana Sayfa
+   </button>
+
+   <button onclick="page('courses',this)">
+    <span class="nav-icon">📚</span>Dersler
+   </button>
+
+   <button onclick="page('tests',this)">
+    <span class="nav-icon">📝</span>Testler
+   </button>
+
+   <button onclick="page('achievements',this)">
+    <span class="nav-icon">🏆</span>Başarılar
+   </button>
+
+   <button onclick="page('profile',this)">
+    <span class="nav-icon">👤</span>Profil
+   </button>
+
+  </nav>
+
+  <div class="logout">
+   <button onclick="logout()">↪ Çıkış Yap</button>
+  </div>
+
+ </aside>
+
+ <main class="main">
+
+  <header class="topbar">
+   <button class="menu" onclick="toggleMenu()">☰</button>
+   <div></div>
+   <div class="user">
+    <strong id="topName"></strong>
+    <div class="avatar" id="topAvatar"></div>
+   </div>
+  </header>
+
+  <div class="content">
+
+   <!-- HOME -->
+   <section id="home" class="page active">
+
+    <div class="hero">
+     <h1>Merhaba, <span id="welcomeName"></span> 👋</h1>
+     <p>Bugün yeni bir şeyler öğrenmeye hazır mısın?</p>
+    </div>
+
+    <div class="stats">
+
+     <div class="stat">
+      <small>Toplam Puan</small>
+      <strong class="yellow" id="points">0</strong>
+     </div>
+
+     <div class="stat">
+      <small>Tamamlanan Ders</small>
+      <strong id="lessonCount">0</strong>
+     </div>
+
+     <div class="stat">
+      <small>Çözülen Test</small>
+      <strong id="testCount">0</strong>
+     </div>
+
+     <div class="stat">
+      <small>Genel Başarı</small>
+      <strong class="yellow" id="success">0%</strong>
+     </div>
 
     </div>
 
+    <h2 style="margin-bottom:15px">Derslerin</h2>
+
+    <div id="homeCourses" class="grid"></div>
+
+   </section>
+
+
+   <!-- COURSES -->
+   <section id="courses" class="page">
+
+    <h1 class="title">Dersler</h1>
+    <p class="subtitle">
+     Beray öğretmenlerinin hazırladığı dersleri keşfet.
+    </p>
+
+    <div id="courseList" class="grid"></div>
+
+   </section>
+
+
+   <!-- TESTS -->
+   <section id="tests" class="page">
+
+    <h1 class="title">Testler</h1>
+    <p class="subtitle">
+     Bilgini test et ve puan kazan.
+    </p>
+
+    <div id="testList"></div>
+
+   </section>
+
+
+   <!-- QUIZ -->
+   <section id="quizPage" class="page">
+
+    <div class="quiz">
+
+     <div class="quiz-head">
+      <span id="quizName"></span>
+      <span id="quizNumber"></span>
+     </div>
+
+     <div class="progress">
+      <div id="quizProgress" class="progress-bar"></div>
+     </div>
+
+     <div id="questionBox" class="question"></div>
+
+    </div>
+
+   </section>
+
+
+   <!-- ACHIEVEMENTS -->
+   <section id="achievements" class="page">
+
+    <h1 class="title">Başarılar</h1>
+    <p class="subtitle">Kazandığın başarıları burada görebilirsin.</p>
+
+    <div id="achievementList" class="grid"></div>
+
+   </section>
+
+
+   <!-- PROFILE -->
+   <section id="profile" class="page">
+
+    <h1 class="title">Profil</h1>
+    <p class="subtitle">Hesap bilgilerin.</p>
+
+    <div class="card profile">
+
+     <div class="profile-head">
+
+      <div class="big-avatar" id="profileAvatar"></div>
+
+      <div>
+       <h2 id="profileName"></h2>
+       <p id="profileEmail"></p>
+      </div>
+
+     </div>
+
+     <div class="profile-row">
+      <span>Toplam puan</span>
+      <strong class="yellow" id="profilePoints">0</strong>
+     </div>
+
+     <div class="profile-row">
+      <span>Tamamlanan ders</span>
+      <strong id="profileLessons">0</strong>
+     </div>
+
+     <div class="profile-row">
+      <span>Çözülen test</span>
+      <strong id="profileTests">0</strong>
+     </div>
+
+    </div>
+
+   </section>
+
+  </div>
+ </main>
 </div>
 
-<!-- ================= APP ================= -->
+<div id="toast"></div>
 
-<div id="app" class="app hidden">
 
-    <aside id="sidebar" class="sidebar">
+<!-- FIREBASE -->
+<script type="module">
 
-        <div class="logo">
-            <div class="logo-icon"></div>
-            <div class="logo-text">Bera<span>y</span></div>
-        </div>
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-        <nav class="nav">
-
-            <button class="active" data-page="dashboard" onclick="openPage('dashboard',this)">
-                <span class="nav-icon">⌂</span> Ana Sayfa
-            </button>
-
-            <button data-page="lessons" onclick="openPage('lessons',this)">
-                <span class="nav-icon">📚</span> Dersler
-            </button>
-
-            <button data-page="tests" onclick="openPage('tests',this)">
-                <span class="nav-icon">📝</span> Testler
-            </button>
-
-            <button data-page="achievements" onclick="openPage('achievements',this)">
-                <span class="nav-icon">🏆</span> Başarılar
-            </button>
-
-            <button data-page="profile" onclick="openPage('profile',this)">
-                <span class="nav-icon">👤</span> Profil
-            </button>
-
-        </nav>
-
-        <div class="logout">
-            <button onclick="logout()">↪ Çıkış Yap</button>
-        </div>
-
-    </aside>
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-
-            <div></div>
-
-            <div class="user-mini">
-                <div>
-                    <strong id="topName">Öğrenci</strong>
-                </div>
-                <div class="avatar" id="topAvatar">B</div>
-            </div>
-
-        </header>
-
-        <div class="content">
-
-            <!-- DASHBOARD -->
-
-            <section id="dashboard" class="page active">
-
-                <div class="welcome">
-                    <h1>Merhaba, <span id="welcomeName">Öğrenci</span> 👋</h1>
-                    <p>Bugün öğrenmek için harika bir gün.</p>
-                </div>
-
-                <div class="stats">
-
-                    <div class="stat">
-                        <div class="stat-title">Toplam Puan</div>
-                        <div class="stat-value yellow" id="totalPoints">0</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-title">Tamamlanan Ders</div>
-                        <div class="stat-value" id="completedLessons">0</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-title">Çözülen Test</div>
-                        <div class="stat-value" id="completedTests">0</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-title">Başarı</div>
-                        <div class="stat-value yellow" id="successRate">0%</div>
-                    </div>
-
-                </div>
-
-                <h2 style="margin-bottom:15px">Derslerin</h2>
-
-                <div class="grid" id="dashboardSubjects"></div>
-
-            </section>
-
-            <!-- LESSONS -->
-
-            <section id="lessons" class="page">
-
-                <h1 class="page-title">Dersler</h1>
-                <p class="page-subtitle">Öğrenmek istediğin dersi seç.</p>
-
-                <div class="grid" id="lessonGrid"></div>
-
-            </section>
-
-            <!-- TESTS -->
-
-            <section id="tests" class="page">
-
-                <h1 class="page-title">Testler</h1>
-                <p class="page-subtitle">Bilgini test et ve puan kazan.</p>
-
-                <div id="testList"></div>
-
-            </section>
-
-            <!-- QUIZ -->
-
-            <section id="quizPage" class="page">
-
-                <div class="quiz">
-
-                    <div class="quiz-top">
-                        <span id="quizTitle">Test</span>
-                        <span id="quizCounter">1 / 5</span>
-                    </div>
-
-                    <div class="progress">
-                        <div id="quizProgress" class="progress-bar"></div>
-                    </div>
-
-                    <div id="questionBox" class="question"></div>
-
-                </div>
-
-            </section>
-
-            <!-- ACHIEVEMENTS -->
-
-            <section id="achievements" class="page">
-
-                <h1 class="page-title">Başarılar</h1>
-                <p class="page-subtitle">Kazandığın rozetler.</p>
-
-                <div class="grid" id="achievementGrid"></div>
-
-            </section>
-
-            <!-- PROFILE -->
-
-            <section id="profile" class="page">
-
-                <h1 class="page-title">Profil</h1>
-                <p class="page-subtitle">Hesap bilgilerin.</p>
-
-                <div class="card profile-box">
-
-                    <div class="profile-row">
-
-                        <div class="big-avatar" id="profileAvatar">B</div>
-
-                        <div class="profile-info">
-                            <h2 id="profileName">Öğrenci</h2>
-                            <p id="profileEmail">mail@example.com</p>
-                        </div>
-
-                    </div>
-
-                    <div class="profile-row">
-                        <div>
-                            <strong>Toplam Puan</strong>
-                            <p style="color:var(--muted);margin-top:5px">
-                                Platformdaki toplam puanın
-                            </p>
-                        </div>
-
-                        <strong id="profilePoints"
-                                style="margin-left:auto;color:var(--yellow)">
-                            0
-                        </strong>
-                    </div>
-
-                    <div class="profile-row">
-                        <div>
-                            <strong>Üyelik</strong>
-                            <p style="color:var(--muted);margin-top:5px">
-                                Beray Öğrencisi
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
-
-        </div>
-
-    </main>
-
-</div>
-
-<div id="toast" class="toast"></div>
-
-<script>
-
-/* =====================================================
-   BERAY EĞİTİM PLATFORMU
-   LocalStorage tabanlı çalışan sistem
-===================================================== */
-
-const subjects = [
-
-    {
-        id:"math",
-        name:"Matematik",
-        icon:"📐",
-        description:"Sayılar, işlemler, problemler ve matematiksel düşünme.",
-        progress:0
-    },
-
-    {
-        id:"turkish",
-        name:"Türkçe",
-        icon:"📖",
-        description:"Okuma, anlama, dil bilgisi ve paragraf çalışmaları.",
-        progress:0
-    },
-
-    {
-        id:"science",
-        name:"Fen Bilimleri",
-        icon:"🔬",
-        description:"Bilim, doğa, madde ve canlılar hakkında öğren.",
-        progress:0
-    },
-
-    {
-        id:"social",
-        name:"Sosyal Bilgiler",
-        icon:"🌍",
-        description:"Tarih, coğrafya, toplum ve kültür.",
-        progress:0
-    },
-
-    {
-        id:"english",
-        name:"İngilizce",
-        icon:"🌐",
-        description:"Temel İngilizce kelimeler ve cümleler.",
-        progress:0
-    },
-
-    {
-        id:"computer",
-        name:"Bilişim",
-        icon:"💻",
-        description:"Teknoloji, internet ve dijital dünya.",
-        progress:0
-    }
-
-];
-
-const tests = [
-
-    {
-        id:"math1",
-        subject:"Matematik",
-        title:"Temel Matematik Testi",
-        questions:[
-            {
-                q:"5 + 7 işleminin sonucu kaçtır?",
-                a:["10","11","12","13"],
-                correct:2
-            },
-            {
-                q:"10 × 3 kaçtır?",
-                a:["20","30","40","13"],
-                correct:1
-            },
-            {
-                q:"20'nin yarısı kaçtır?",
-                a:["5","10","15","20"],
-                correct:1
-            },
-            {
-                q:"100 - 25 kaçtır?",
-                a:["65","70","75","80"],
-                correct:2
-            },
-            {
-                q:"4 × 4 kaçtır?",
-                a:["8","12","16","20"],
-                correct:2
-            }
-        ]
-    },
-
-    {
-        id:"turkish1",
-        subject:"Türkçe",
-        title:"Türkçe Anlama Testi",
-        questions:[
-            {
-                q:"'Kitap' kelimesinin çoğulu hangisidir?",
-                a:["Kitaplar","Kitapçı","Kitaplık","Kitabım"],
-                correct:0
-            },
-            {
-                q:"Hangisi bir isimdir?",
-                a:["Koşmak","Güzel","Kalem","Hızlı"],
-                correct:2
-            },
-            {
-                q:"Cümlenin sonuna soru anlamında hangi işaret gelir?",
-                a:[".","!","? ",":"],
-                correct:2
-            },
-            {
-                q:"Hangisi bir hayvandır?",
-                a:["Masa","Kedi","Kalem","Ev"],
-                correct:1
-            },
-            {
-                q:"'Büyük' kelimesinin zıt anlamlısı hangisidir?",
-                a:["Uzun","Küçük","Geniş","Yüksek"],
-                correct:1
-            }
-        ]
-    },
-
-    {
-        id:"science1",
-        subject:"Fen Bilimleri",
-        title:"Fen Bilimleri Testi",
-        questions:[
-            {
-                q:"Dünya'nın doğal uydusu hangisidir?",
-                a:["Güneş","Mars","Ay","Venüs"],
-                correct:2
-            },
-            {
-                q:"Bitkiler fotosentez yaparken hangi gazı kullanır?",
-                a:["Oksijen","Karbondioksit","Azot","Hidrojen"],
-                correct:1
-            },
-            {
-                q:"Su kaç derecede donar?",
-                a:["0°C","10°C","50°C","100°C"],
-                correct:0
-            },
-            {
-                q:"İnsanların nefes almak için kullandığı organ hangisidir?",
-                a:["Kalp","Akciğer","Mide","Böbrek"],
-                correct:1
-            },
-            {
-                q:"Güneş bir nedir?",
-                a:["Gezegen","Uydu","Yıldız","Asteroit"],
-                correct:2
-            }
-        ]
-    }
-
-];
-
-let currentUser = null;
-let currentTest = null;
-let currentQuestion = 0;
-let quizScore = 0;
-let answerLocked = false;
-
-
-/* ================= DATABASE ================= */
-
-function getUsers(){
-
-    return JSON.parse(
-        localStorage.getItem("beray_users") || "[]"
-    );
-
+import {
+ getAuth,
+ createUserWithEmailAndPassword,
+ signInWithEmailAndPassword,
+ onAuthStateChanged,
+ signOut,
+ updateProfile
 }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-function saveUsers(users){
-
-    localStorage.setItem(
-        "beray_users",
-        JSON.stringify(users)
-    );
-
+import {
+ getFirestore,
+ doc,
+ setDoc,
+ getDoc,
+ updateDoc,
+ collection,
+ getDocs,
+ query,
+ where,
+ orderBy,
+ limit,
+ addDoc,
+ serverTimestamp
 }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-function getUser(){
 
-    return JSON.parse(
-        localStorage.getItem("beray_current_user") || "null"
-    );
+/* ================= FIREBASE ================= */
 
-}
+const firebaseConfig={
+ apiKey:"AIzaSyBBPmjL_OSdBWsUkeS5ZS9-YnVPqyhdko",
+ authDomain:"sistem-16411.firebaseapp.com",
+ projectId:"sistem-16411",
+ storageBucket:"sistem-16411.firebasestorage.app",
+ messagingSenderId:"1036642820709",
+ appId:"1:1036642820709:web:dfa1cd766ff6956580dc8c"
+};
 
-function saveUser(){
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
 
-    localStorage.setItem(
-        "beray_current_user",
-        JSON.stringify(currentUser)
-    );
 
+/* ================= STATE ================= */
+
+let user=null;
+let userData=null;
+let tests=[];
+let courses=[];
+let currentTest=null;
+let questionIndex=0;
+let correctAnswers=0;
+let locked=false;
+
+
+/* ================= AUTH UI ================= */
+
+window.showRegister=()=>{
+ document.getElementById("loginBox").classList.add("hidden");
+ document.getElementById("registerBox").classList.remove("hidden");
+};
+
+window.showLogin=()=>{
+ document.getElementById("registerBox").classList.add("hidden");
+ document.getElementById("loginBox").classList.remove("hidden");
+};
+
+function authError(id,message){
+ document.getElementById(id).innerHTML=
+ `<div class="auth-error">${message}</div>`;
 }
 
 
-/* ================= AUTH ================= */
+/* ================= REGISTER ================= */
 
-function showRegister(){
+window.register=async()=>{
 
-    document.getElementById("loginForm")
-        .classList.add("hidden");
+ const name=document.getElementById("registerName").value.trim();
+ const email=document.getElementById("registerEmail").value.trim();
+ const password=document.getElementById("registerPassword").value;
 
-    document.getElementById("registerForm")
-        .classList.remove("hidden");
+ if(!name||!email||!password){
+  authError("registerError","Lütfen bütün alanları doldur.");
+  return;
+ }
 
-}
+ if(password.length<6){
+  authError("registerError","Şifre en az 6 karakter olmalı.");
+  return;
+ }
 
-function showLogin(){
+ try{
 
-    document.getElementById("registerForm")
-        .classList.add("hidden");
+  const credential=
+   await createUserWithEmailAndPassword(
+    auth,email,password
+   );
 
-    document.getElementById("loginForm")
-        .classList.remove("hidden");
+  await updateProfile(credential.user,{displayName:name});
 
-}
+  await setDoc(
+   doc(db,"users",credential.user.uid),
+   {
+    uid:credential.user.uid,
+    name:name,
+    email:email,
+    role:"student",
+    points:0,
+    completedLessons:[],
+    completedTests:[],
+    testScores:{},
+    createdAt:serverTimestamp()
+   }
+  );
 
-function register(){
+  showToast("Hesabın oluşturuldu 🎉");
 
-    const name =
-        document.getElementById("registerName").value.trim();
+ }catch(error){
 
-    const email =
-        document.getElementById("registerEmail").value.trim().toLowerCase();
+  authError(
+   "registerError",
+   firebaseMessage(error.code)
+  );
 
-    const password =
-        document.getElementById("registerPassword").value;
+ }
 
-    const error =
-        document.getElementById("registerError");
+};
 
-    error.innerHTML="";
 
-    if(!name || !email || !password){
+/* ================= LOGIN ================= */
 
-        error.innerHTML =
-            '<div class="error">Tüm alanları doldur.</div>';
+window.login=async()=>{
 
-        return;
+ const email=document.getElementById("loginEmail").value.trim();
+ const password=document.getElementById("loginPassword").value;
 
-    }
+ if(!email||!password){
+  authError("loginError","E-posta ve şifre gerekli.");
+  return;
+ }
 
-    if(password.length < 6){
+ try{
 
-        error.innerHTML =
-            '<div class="error">Şifre en az 6 karakter olmalı.</div>';
+  await signInWithEmailAndPassword(
+   auth,email,password
+  );
 
-        return;
+  showToast("Hoş geldin 👋");
 
-    }
+ }catch(error){
 
-    const users = getUsers();
+  authError(
+   "loginError",
+   firebaseMessage(error.code)
+  );
 
-    if(users.some(u=>u.email===email)){
+ }
 
-        error.innerHTML =
-            '<div class="error">Bu e-posta zaten kayıtlı.</div>';
+};
 
-        return;
 
-    }
+/* ================= LOGOUT ================= */
 
-    const user = {
+window.logout=async()=>{
 
-        id:Date.now(),
+ await signOut(auth);
 
-        name,
+ document.getElementById("app")
+  .classList.add("hidden");
 
-        email,
+ document.getElementById("auth")
+  .classList.remove("hidden");
 
-        password,
+};
 
-        points:0,
 
-        completedLessons:[],
+/* ================= AUTH STATE ================= */
 
-        completedTests:[],
+onAuthStateChanged(auth,async(firebaseUser)=>{
 
-        scores:{},
+ if(!firebaseUser){
 
-        createdAt:new Date().toISOString()
+  document.getElementById("app")
+   .classList.add("hidden");
 
-    };
+  document.getElementById("auth")
+   .classList.remove("hidden");
 
-    users.push(user);
+  return;
+ }
 
-    saveUsers(users);
+ user=firebaseUser;
 
-    currentUser=user;
+ const ref=doc(db,"users",user.uid);
+ const snap=await getDoc(ref);
 
-    saveUser();
+ if(!snap.exists()){
 
-    openApp();
+  await setDoc(ref,{
+   uid:user.uid,
+   name:user.displayName||"Öğrenci",
+   email:user.email,
+   role:"student",
+   points:0,
+   completedLessons:[],
+   completedTests:[],
+   testScores:{},
+   createdAt:serverTimestamp()
+  });
 
-    toast("Hesabın başarıyla oluşturuldu 🎉");
+  const fresh=await getDoc(ref);
+  userData=fresh.data();
 
-}
+ }else{
 
-function login(){
+  userData=snap.data();
 
-    const email =
-        document.getElementById("loginEmail")
-            .value.trim().toLowerCase();
+ }
 
-    const password =
-        document.getElementById("loginPassword")
-            .value;
+ openApp();
 
-    const error =
-        document.getElementById("loginError");
-
-    error.innerHTML="";
-
-    const users=getUsers();
-
-    const user=users.find(
-        u=>u.email===email && u.password===password
-    );
-
-    if(!user){
-
-        error.innerHTML =
-            '<div class="error">E-posta veya şifre yanlış.</div>';
-
-        return;
-
-    }
-
-    currentUser=user;
-
-    saveUser();
-
-    openApp();
-
-    toast("Tekrar hoş geldin 👋");
-
-}
-
-function logout(){
-
-    localStorage.removeItem("beray_current_user");
-
-    currentUser=null;
-
-    document.getElementById("app")
-        .classList.add("hidden");
-
-    document.getElementById("authPage")
-        .classList.remove("hidden");
-
-}
+});
 
 
 /* ================= APP ================= */
 
-function openApp(){
+async function openApp(){
 
-    document.getElementById("authPage")
-        .classList.add("hidden");
+ document.getElementById("auth")
+  .classList.add("hidden");
 
-    document.getElementById("app")
-        .classList.remove("hidden");
+ document.getElementById("app")
+  .classList.remove("hidden");
 
-    updateUI();
+ const name=userData.name||user.displayName||"Öğrenci";
+ const initial=name.charAt(0).toUpperCase();
 
-}
+ document.getElementById("topName").textContent=name;
+ document.getElementById("topAvatar").textContent=initial;
 
-function updateUI(){
+ document.getElementById("welcomeName").textContent=
+  name.split(" ")[0];
 
-    if(!currentUser) return;
+ document.getElementById("profileName").textContent=name;
+ document.getElementById("profileEmail").textContent=user.email;
+ document.getElementById("profileAvatar").textContent=initial;
 
-    const first =
-        currentUser.name.charAt(0).toUpperCase();
-
-    document.getElementById("topName")
-        .textContent=currentUser.name;
-
-    document.getElementById("topAvatar")
-        .textContent=first;
-
-    document.getElementById("welcomeName")
-        .textContent=currentUser.name.split(" ")[0];
-
-    document.getElementById("profileName")
-        .textContent=currentUser.name;
-
-    document.getElementById("profileEmail")
-        .textContent=currentUser.email;
-
-    document.getElementById("profileAvatar")
-        .textContent=first;
-
-    document.getElementById("totalPoints")
-        .textContent=currentUser.points;
-
-    document.getElementById("profilePoints")
-        .textContent=currentUser.points;
-
-    document.getElementById("completedLessons")
-        .textContent=currentUser.completedLessons.length;
-
-    document.getElementById("completedTests")
-        .textContent=currentUser.completedTests.length;
-
-    const scoreValues =
-        Object.values(currentUser.scores);
-
-    const success =
-        scoreValues.length
-        ? Math.round(
-            scoreValues.reduce((a,b)=>a+b,0)
-            / scoreValues.length
-          )
-        : 0;
-
-    document.getElementById("successRate")
-        .textContent=success+"%";
-
-    renderSubjects();
-    renderTests();
-    renderAchievements();
+ await loadCourses();
+ await loadTests();
+ updateDashboard();
 
 }
 
 
-/* ================= NAVIGATION ================= */
+/* ================= COURSES ================= */
 
-function openPage(page,button){
+async function loadCourses(){
 
-    document.querySelectorAll(".page")
-        .forEach(p=>p.classList.remove("active"));
+ const snap=await getDocs(
+  query(
+   collection(db,"courses"),
+   orderBy("createdAt","desc"),
+   limit(50)
+  )
+ );
 
-    const target=document.getElementById(page);
+ courses=[];
 
-    if(target) target.classList.add("active");
+ snap.forEach(item=>{
+  courses.push({
+   id:item.id,
+   ...item.data()
+  });
+ });
 
-    document.querySelectorAll(".nav button")
-        .forEach(b=>b.classList.remove("active"));
-
-    if(button)
-        button.classList.add("active");
-
-    document.getElementById("sidebar")
-        .classList.remove("open");
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-function toggleSidebar(){
-
-    document.getElementById("sidebar")
-        .classList.toggle("open");
+ renderCourses();
 
 }
 
 
-/* ================= SUBJECTS ================= */
+/* ================= COURSE RENDER ================= */
 
-function renderSubjects(){
+function renderCourses(){
 
-    const lessonGrid =
-        document.getElementById("lessonGrid");
+ const list=document.getElementById("courseList");
+ const home=document.getElementById("homeCourses");
 
-    const dashboard =
-        document.getElementById("dashboardSubjects");
+ list.innerHTML="";
+ home.innerHTML="";
 
-    lessonGrid.innerHTML="";
-    dashboard.innerHTML="";
+ if(!courses.length){
 
-    subjects.forEach(subject=>{
+  list.innerHTML=`
+   <div class="card">
+    <h3>Henüz ders yok</h3>
+    <p>
+     Öğretmenin yeni ders eklediğinde burada görünecek.
+    </p>
+   </div>
+  `;
 
-        const progress =
-            currentUser.completedLessons.includes(subject.id)
-            ? 100
-            : 0;
+  return;
+ }
 
-        const html=`
+ courses.forEach((course,index)=>{
 
-            <div class="card subject-card">
+  const completed=
+   (userData.completedLessons||[])
+   .includes(course.id);
 
-                <div class="subject-icon">
-                    ${subject.icon}
-                </div>
+  const html=`
 
-                <h3>${subject.name}</h3>
+   <div class="card">
 
-                <p>${subject.description}</p>
+    <div class="subject-icon">
+     ${course.icon||"📚"}
+    </div>
 
-                <div class="progress">
-                    <div
-                        class="progress-bar"
-                        style="width:${progress}%">
-                    </div>
-                </div>
+    <h3>${escapeHTML(course.title||"Ders")}</h3>
 
-                <div class="progress-text">
-                    <span>İlerleme</span>
-                    <span>${progress}%</span>
-                </div>
+    <p>
+     ${escapeHTML(course.description||"")}
+    </p>
 
-                <button onclick="completeLesson('${subject.id}')">
-                    ${progress===100 ? "Tamamlandı ✓" : "Derse Başla"}
-                </button>
+    <div class="progress">
+     <div class="progress-bar"
+      style="width:${completed?100:0}%">
+     </div>
+    </div>
 
-            </div>
+    <div class="progress-info">
+     <span>İlerleme</span>
+     <span>${completed?100:0}%</span>
+    </div>
 
-        `;
+    <button
+     class="secondary"
+     onclick="completeCourse('${course.id}')">
 
-        lessonGrid.innerHTML+=html;
+     ${completed?"Tamamlandı ✓":"Dersi Tamamla"}
 
-    });
+    </button>
 
-    subjects.slice(0,3).forEach(subject=>{
+   </div>
+  `;
 
-        const progress =
-            currentUser.completedLessons.includes(subject.id)
-            ? 100
-            : 0;
+  list.innerHTML+=html;
 
-        dashboard.innerHTML+=`
+  if(index<3)
+   home.innerHTML+=html;
 
-            <div class="card">
-
-                <div class="subject-icon">
-                    ${subject.icon}
-                </div>
-
-                <h3>${subject.name}</h3>
-
-                <p>${subject.description}</p>
-
-                <div class="progress">
-                    <div
-                        class="progress-bar"
-                        style="width:${progress}%">
-                    </div>
-                </div>
-
-                <div class="progress-text">
-                    <span>İlerleme</span>
-                    <span>${progress}%</span>
-                </div>
-
-            </div>
-
-        `;
-
-    });
+ });
 
 }
 
-function completeLesson(id){
 
-    if(!currentUser.completedLessons.includes(id)){
+/* ================= COMPLETE COURSE ================= */
 
-        currentUser.completedLessons.push(id);
+window.completeCourse=async(courseId)=>{
 
-        currentUser.points+=10;
+ const completed=userData.completedLessons||[];
 
-        updateStoredUser();
+ if(completed.includes(courseId)){
 
-        toast("Ders tamamlandı! +10 puan ⭐");
+  showToast("Bu dersi zaten tamamladın.");
 
-    }else{
+  return;
+ }
 
-        toast("Bu dersi zaten tamamladın.");
+ completed.push(courseId);
 
-    }
+ const newPoints=(userData.points||0)+10;
 
-    updateUI();
+ await updateDoc(
+  doc(db,"users",user.uid),
+  {
+   completedLessons:completed,
+   points:newPoints
+  }
+ );
 
-}
+ userData.completedLessons=completed;
+ userData.points=newPoints;
+
+ updateDashboard();
+ renderCourses();
+
+ showToast("Ders tamamlandı! +10 puan ⭐");
+
+};
 
 
 /* ================= TESTS ================= */
 
+async function loadTests(){
+
+ const snap=await getDocs(
+  query(
+   collection(db,"tests"),
+   orderBy("createdAt","desc"),
+   limit(50)
+  )
+ );
+
+ tests=[];
+
+ snap.forEach(item=>{
+
+  tests.push({
+   id:item.id,
+   ...item.data()
+  });
+
+ });
+
+ renderTests();
+
+}
+
+
+/* ================= TEST RENDER ================= */
+
 function renderTests(){
 
-    const list =
-        document.getElementById("testList");
+ const list=document.getElementById("testList");
+ list.innerHTML="";
 
-    list.innerHTML="";
+ if(!tests.length){
 
-    tests.forEach(test=>{
+  list.innerHTML=`
+   <div class="card">
+    <h3>Henüz test yok</h3>
+    <p>Öğretmenin test eklediğinde burada görünecek.</p>
+   </div>
+  `;
 
-        const score =
-            currentUser.scores[test.id];
+  return;
+ }
 
-        list.innerHTML+=`
+ tests.forEach(test=>{
 
-            <div class="card test-card"
-                 style="margin-bottom:14px">
+  const score=
+   userData.testScores?.[test.id];
 
-                <div class="test-info">
+  list.innerHTML+=`
 
-                    <h3>${test.title}</h3>
+   <div class="card test">
 
-                    <p>
-                        ${test.subject} ·
-                        ${test.questions.length} soru
-                    </p>
+    <div>
+     <h3>${escapeHTML(test.title||"Test")}</h3>
 
-                </div>
+     <div class="test-meta">
+      ${escapeHTML(test.description||"")}
+      · ${test.questions?.length||0} soru
+     </div>
+    </div>
 
-                <div class="test-score">
+    <div class="test-score">
 
-                    ${
-                        score !== undefined
-                        ? `<strong>${score}%</strong>`
-                        : `<span style="color:var(--muted)">
-                            Henüz çözülmedi
-                           </span>`
-                    }
+     ${
+      score!==undefined
+      ? `<strong>${score}%</strong>`
+      : `<span style="color:var(--muted)">
+          Çözülmedi
+         </span>`
+     }
 
-                    <br>
+     <br>
 
-                    <button
-                        onclick="startTest('${test.id}')">
+     <button
+      class="secondary"
+      onclick="startTest('${test.id}')">
 
-                        ${score !== undefined
-                            ? "Tekrar Çöz"
-                            : "Teste Başla"}
+      ${score!==undefined?"Tekrar Çöz":"Teste Başla"}
 
-                    </button>
+     </button>
 
-                </div>
+    </div>
 
-            </div>
+   </div>
+  `;
 
-        `;
-
-    });
-
-}
-
-
-/* ================= QUIZ ================= */
-
-function startTest(id){
-
-    currentTest =
-        tests.find(t=>t.id===id);
-
-    currentQuestion=0;
-    quizScore=0;
-    answerLocked=false;
-
-    openPage("quizPage");
-
-    document.getElementById("quizTitle")
-        .textContent=currentTest.title;
-
-    showQuestion();
+ });
 
 }
+
+
+/* ================= START TEST ================= */
+
+window.startTest=(id)=>{
+
+ currentTest=tests.find(t=>t.id===id);
+
+ if(!currentTest) return;
+
+ questionIndex=0;
+ correctAnswers=0;
+ locked=false;
+
+ page("quizPage");
+
+ document.getElementById("quizName").textContent=
+  currentTest.title||"Test";
+
+ showQuestion();
+
+};
+
+
+/* ================= QUESTION ================= */
 
 function showQuestion(){
 
-    const question =
-        currentTest.questions[currentQuestion];
+ const questions=currentTest.questions||[];
+ const question=questions[questionIndex];
 
-    const total =
-        currentTest.questions.length;
+ if(!question){
 
-    document.getElementById("quizCounter")
-        .textContent=
-        `${currentQuestion+1} / ${total}`;
+  finishTest();
 
-    document.getElementById("quizProgress")
-        .style.width=
-        `${((currentQuestion+1)/total)*100}%`;
+  return;
+ }
 
-    const box =
-        document.getElementById("questionBox");
+ document.getElementById("quizNumber").textContent=
+  `${questionIndex+1} / ${questions.length}`;
 
-    box.innerHTML=`
+ document.getElementById("quizProgress").style.width=
+  `${((questionIndex+1)/questions.length)*100}%`;
 
-        <h2>${question.q}</h2>
+ const box=document.getElementById("questionBox");
 
-        <div class="answers">
+ box.innerHTML=`
 
-            ${question.a.map((answer,index)=>`
+  <h2>${escapeHTML(question.question||"Soru")}</h2>
 
-                <button
-                    class="answer"
-                    onclick="answerQuestion(${index})">
+  <div class="answers">
 
-                    ${answer}
+   ${(question.options||[]).map((option,index)=>`
 
-                </button>
+    <button
+     class="answer"
+     onclick="answer(${index})">
 
-            `).join("")}
+     ${escapeHTML(option)}
 
-        </div>
+    </button>
 
-    `;
+   `).join("")}
 
-}
-
-function answerQuestion(index){
-
-    if(answerLocked) return;
-
-    answerLocked=true;
-
-    const question =
-        currentTest.questions[currentQuestion];
-
-    const buttons =
-        document.querySelectorAll(".answer");
-
-    buttons.forEach((btn,i)=>{
-
-        if(i===question.correct)
-            btn.classList.add("correct");
-
-        if(i===index && i!==question.correct)
-            btn.classList.add("wrong");
-
-        btn.disabled=true;
-
-    });
-
-    if(index===question.correct){
-
-        quizScore++;
-
-    }
-
-    const next=document.createElement("button");
-
-    next.className="quiz-next";
-
-    next.textContent =
-        currentQuestion===currentTest.questions.length-1
-        ? "Testi Bitir"
-        : "Sonraki Soru";
-
-    next.onclick=nextQuestion;
-
-    document.getElementById("questionBox")
-        .appendChild(next);
+  </div>
+ `;
 
 }
 
-function nextQuestion(){
 
-    currentQuestion++;
+/* ================= ANSWER ================= */
 
-    if(currentQuestion >= currentTest.questions.length){
+window.answer=(index)=>{
 
-        finishTest();
+ if(locked) return;
 
-        return;
+ locked=true;
 
-    }
+ const question=
+  currentTest.questions[questionIndex];
 
-    answerLocked=false;
+ const buttons=
+  document.querySelectorAll(".answer");
 
-    showQuestion();
+ buttons.forEach((button,i)=>{
+
+  if(i===Number(question.correctAnswer))
+   button.classList.add("correct");
+
+  if(i===index &&
+     i!==Number(question.correctAnswer))
+   button.classList.add("wrong");
+
+  button.disabled=true;
+
+ });
+
+ if(index===Number(question.correctAnswer))
+  correctAnswers++;
+
+ const next=document.createElement("button");
+
+ next.className="next";
+
+ next.textContent=
+  questionIndex===currentTest.questions.length-1
+  ?"Testi Bitir"
+  :"Sonraki Soru";
+
+ next.onclick=()=>{
+
+  questionIndex++;
+  locked=false;
+  showQuestion();
+
+ };
+
+ document.getElementById("questionBox")
+  .appendChild(next);
+
+};
+
+
+/* ================= FINISH TEST ================= */
+
+async function finishTest(){
+
+ const total=currentTest.questions.length;
+
+ const percentage=
+  Math.round((correctAnswers/total)*100);
+
+ const points=correctAnswers*5;
+
+ const scores=userData.testScores||{};
+
+ scores[currentTest.id]=percentage;
+
+ const completed=userData.completedTests||[];
+
+ if(!completed.includes(currentTest.id))
+  completed.push(currentTest.id);
+
+ const newPoints=(userData.points||0)+points;
+
+ await updateDoc(
+  doc(db,"users",user.uid),
+  {
+   testScores:scores,
+   completedTests:completed,
+   points:newPoints
+  }
+ );
+
+ await addDoc(
+  collection(db,"results"),
+  {
+   studentId:user.uid,
+   studentName:userData.name,
+   testId:currentTest.id,
+   testTitle:currentTest.title||"",
+   score:percentage,
+   correct:correctAnswers,
+   wrong:total-correctAnswers,
+   points:points,
+   createdAt:serverTimestamp()
+  }
+ );
+
+ userData.testScores=scores;
+ userData.completedTests=completed;
+ userData.points=newPoints;
+
+ updateDashboard();
+ renderTests();
+
+ document.getElementById("questionBox").innerHTML=`
+
+  <div style="text-align:center">
+
+   <div style="font-size:60px">
+    ${percentage>=80?"🏆":percentage>=50?"⭐":"📚"}
+   </div>
+
+   <h2>Test Tamamlandı!</h2>
+
+   <p style="color:var(--muted);margin:12px 0">
+    ${correctAnswers}/${total} doğru
+   </p>
+
+   <div style="
+    font-size:48px;
+    color:var(--yellow);
+    font-weight:900;
+    margin:18px">
+    ${percentage}%
+   </div>
+
+   <p style="color:var(--yellow);margin-bottom:15px">
+    +${points} puan
+   </p>
+
+   <button
+    class="next"
+    onclick="page('tests')">
+
+    Testlere Dön
+
+   </button>
+
+  </div>
+ `;
 
 }
 
-function finishTest(){
 
-    const total =
-        currentTest.questions.length;
+/* ================= DASHBOARD ================= */
 
-    const percentage =
-        Math.round((quizScore/total)*100);
+function updateDashboard(){
 
-    currentUser.scores[currentTest.id]=percentage;
+ const points=userData.points||0;
+ const lessons=(userData.completedLessons||[]).length;
+ const completedTests=(userData.completedTests||[]).length;
 
-    if(!currentUser.completedTests.includes(currentTest.id)){
+ const scores=Object.values(userData.testScores||{});
 
-        currentUser.completedTests.push(currentTest.id);
+ const success=scores.length
+  ?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)
+  :0;
 
-    }
+ document.getElementById("points").textContent=points;
+ document.getElementById("lessonCount").textContent=lessons;
+ document.getElementById("testCount").textContent=completedTests;
+ document.getElementById("success").textContent=success+"%";
 
-    currentUser.points += quizScore * 5;
+ document.getElementById("profilePoints").textContent=points;
+ document.getElementById("profileLessons").textContent=lessons;
+ document.getElementById("profileTests").textContent=completedTests;
 
-    updateStoredUser();
-
-    updateUI();
-
-    document.getElementById("questionBox").innerHTML=`
-
-        <div style="text-align:center">
-
-            <div style="font-size:55px;margin-bottom:15px">
-                ${percentage>=80 ? "🏆" : percentage>=50 ? "⭐" : "📚"}
-            </div>
-
-            <h2>Test Tamamlandı!</h2>
-
-            <p style="color:var(--muted);margin:12px 0">
-                ${total} sorudan
-                ${quizScore} tanesini doğru yaptın.
-            </p>
-
-            <div style="
-                font-size:45px;
-                color:var(--yellow);
-                font-weight:900;
-                margin:20px">
-                ${percentage}%
-            </div>
-
-            <button
-                class="quiz-next"
-                onclick="openPage('tests')">
-
-                Testlere Dön
-
-            </button>
-
-        </div>
-
-    `;
+ renderAchievements();
 
 }
 
@@ -1833,161 +1453,145 @@ function finishTest(){
 
 function renderAchievements(){
 
-    const grid =
-        document.getElementById("achievementGrid");
+ const list=document.getElementById("achievementList");
 
-    const achievements=[
+ const points=userData.points||0;
+ const lessons=(userData.completedLessons||[]).length;
+ const testsDone=(userData.completedTests||[]).length;
+ const scores=Object.values(userData.testScores||{});
 
-        {
-            icon:"🌱",
-            title:"İlk Adım",
-            desc:"İlk dersini tamamla.",
-            unlocked:
-                currentUser.completedLessons.length>=1
-        },
+ const achievements=[
 
-        {
-            icon:"📝",
-            title:"Test Ustası",
-            desc:"İlk testini tamamla.",
-            unlocked:
-                currentUser.completedTests.length>=1
-        },
+  ["🌱","İlk Adım","İlk dersini tamamla.",lessons>=1],
 
-        {
-            icon:"⭐",
-            title:"100 Puan",
-            desc:"100 puana ulaş.",
-            unlocked:
-                currentUser.points>=100
-        },
+  ["📝","İlk Test","İlk testini tamamla.",testsDone>=1],
 
-        {
-            icon:"🏆",
-            title:"Başarılı Öğrenci",
-            desc:"Bir testten %80 veya daha yüksek al.",
-            unlocked:
-                Object.values(currentUser.scores)
-                .some(x=>x>=80)
-        },
+  ["⭐","100 Puan","100 puana ulaş.",points>=100],
 
-        {
-            icon:"🔥",
-            title:"Çalışkan",
-            desc:"3 farklı dersi tamamla.",
-            unlocked:
-                currentUser.completedLessons.length>=3
-        },
+  ["🏆","Sınav Ustası","Bir testten %80 al.",scores.some(x=>x>=80)],
 
-        {
-            icon:"👑",
-            title:"Beray Yıldızı",
-            desc:"500 puana ulaş.",
-            unlocked:
-                currentUser.points>=500
-        }
+  ["🔥","Çalışkan","3 ders tamamla.",lessons>=3],
 
-    ];
+  ["👑","Beray Yıldızı","500 puana ulaş.",points>=500]
 
-    grid.innerHTML="";
+ ];
 
-    achievements.forEach(a=>{
+ list.innerHTML=achievements.map(a=>`
 
-        grid.innerHTML+=`
+  <div class="card ${a[3]?"":"locked"}">
 
-            <div class="card"
-                 style="
-                    opacity:${a.unlocked?1:.45};
-                    border-color:${a.unlocked
-                        ?"rgba(255,210,31,.35)"
-                        :"var(--border)"
-                    }">
+   <div class="badge">${a[0]}</div>
 
-                <div style="font-size:42px;margin-bottom:15px">
-                    ${a.icon}
-                </div>
+   <h3>${a[1]}</h3>
 
-                <h3>${a.title}</h3>
+   <p>${a[2]}</p>
 
-                <p>${a.desc}</p>
+   <div style="
+    margin-top:14px;
+    color:${a[3]?"var(--yellow)":"var(--muted)"};
+    font-size:12px">
 
-                <div style="
-                    margin-top:15px;
-                    color:${a.unlocked
-                        ?"var(--yellow)"
-                        :"var(--muted)"
-                    };
-                    font-size:12px">
+    ${a[3]?"✓ Kazanıldı":"🔒 Kilitli"}
 
-                    ${a.unlocked
-                        ?"✓ Kazanıldı"
-                        :"🔒 Kilitli"}
+   </div>
 
-                </div>
+  </div>
 
-            </div>
-
-        `;
-
-    });
+ `).join("");
 
 }
 
 
-/* ================= STORAGE ================= */
+/* ================= NAV ================= */
 
-function updateStoredUser(){
+window.page=(id,button)=>{
 
-    saveUser();
+ document.querySelectorAll(".page")
+  .forEach(x=>x.classList.remove("active"));
 
-    const users=getUsers();
+ document.getElementById(id)
+  .classList.add("active");
 
-    const index =
-        users.findIndex(u=>u.id===currentUser.id);
+ document.querySelectorAll(".nav button")
+  .forEach(x=>x.classList.remove("active"));
 
-    if(index!==-1){
+ if(button)
+  button.classList.add("active");
 
-        users[index]=currentUser;
+ document.getElementById("sidebar")
+  .classList.remove("open");
 
-        saveUsers(users);
+ window.scrollTo({top:0,behavior:"smooth"});
 
-    }
+};
 
-}
+
+window.toggleMenu=()=>{
+ document.getElementById("sidebar")
+  .classList.toggle("open");
+};
 
 
 /* ================= TOAST ================= */
 
-function toast(message){
+function showToast(message){
 
-    const el=document.getElementById("toast");
+ const toast=document.getElementById("toast");
 
-    el.textContent=message;
+ toast.textContent=message;
 
-    el.classList.add("show");
+ toast.classList.add("show");
 
-    setTimeout(()=>{
-
-        el.classList.remove("show");
-
-    },2500);
+ setTimeout(()=>{
+  toast.classList.remove("show");
+ },2500);
 
 }
 
 
-/* ================= START ================= */
+/* ================= ERROR ================= */
 
-window.addEventListener("DOMContentLoaded",()=>{
+function firebaseMessage(code){
 
-    currentUser=getUser();
+ const messages={
 
-    if(currentUser){
+  "auth/email-already-in-use":
+   "Bu e-posta zaten kullanılıyor.",
 
-        openApp();
+  "auth/invalid-email":
+   "Geçerli bir e-posta adresi gir.",
 
-    }
+  "auth/weak-password":
+   "Şifre çok zayıf.",
 
-});
+  "auth/invalid-credential":
+   "E-posta veya şifre yanlış.",
+
+  "auth/user-not-found":
+   "Kullanıcı bulunamadı.",
+
+  "auth/wrong-password":
+   "Şifre yanlış."
+
+ };
+
+ return messages[code]||"Bir hata oluştu. Lütfen tekrar dene.";
+
+}
+
+
+/* ================= ESCAPE ================= */
+
+function escapeHTML(value){
+
+ return String(value??"")
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
 
 </script>
 
