@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn(){ return request.auth != null; }
+    function me(){ return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function teacher(){ return signedIn() && me().data.role in ['teacher','admin']; }
+    function admin(){ return signedIn() && me().data.role == 'admin'; }
+
+    match /users/{uid} {
+      allow create: if signedIn() && request.auth.uid == uid && request.resource.data.role == 'student';
+      allow read: if signedIn() && (request.auth.uid == uid || teacher());
+      allow update: if signedIn() && (teacher() || (request.auth.uid == uid && request.resource.data.role == resource.data.role && request.resource.data.email == resource.data.email && request.resource.data.uid == resource.data.uid));
+      allow delete: if admin();
+    }
+
+    match /courses/{id} { allow read: if signedIn(); allow create,update,delete: if teacher(); }
+    match /lessons/{id} { allow read: if signedIn(); allow create,update,delete: if teacher(); }
+    match /tests/{id} { allow read: if signedIn(); allow create,update,delete: if teacher(); }
+    match /announcements/{id} { allow read: if signedIn(); allow create,update,delete: if teacher(); }
+    match /results/{id} {
+      allow create: if signedIn() && request.resource.data.studentId == request.auth.uid;
+      allow read: if signedIn() && (resource.data.studentId == request.auth.uid || teacher());
+      allow update,delete: if teacher();
+    }
+  }
+}
