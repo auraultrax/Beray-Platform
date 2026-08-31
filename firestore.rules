@@ -1,0 +1,243 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    /* =====================================================
+       YARDIMCI FONKSİYONLAR
+    ===================================================== */
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+
+    function myUser() {
+      return get(
+        /databases/$(database)/documents/users/$(request.auth.uid)
+      );
+    }
+
+
+    function isAdmin() {
+      return signedIn()
+        && myUser().data.role == "admin";
+    }
+
+
+    function isTeacher() {
+      return signedIn()
+        && myUser().data.role in ["teacher", "admin"];
+    }
+
+
+    function isStudent() {
+      return signedIn()
+        && myUser().data.role == "student";
+    }
+
+
+
+    /* =====================================================
+       USERS
+    ===================================================== */
+
+    match /users/{userId} {
+
+      /* Öğrenci kendi profilini kayıt sırasında oluşturabilir */
+      allow create:
+        if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == "student";
+
+
+      /* Kullanıcı kendisini, öğretmen/admin öğrencileri,
+         admin ise herkesi okuyabilir */
+      allow read:
+        if signedIn()
+        && (
+          request.auth.uid == userId
+          || isTeacher()
+        );
+
+
+      /* Öğretmen/admin kullanıcı düzenleyebilir.
+         Normal öğrenci yalnızca kendi temel profilini güncelleyebilir;
+         rolünü/emailini değiştiremez. */
+      allow update:
+        if signedIn()
+        && (
+          isTeacher()
+          ||
+          (
+            request.auth.uid == userId
+
+            && request.resource.data.role
+               == resource.data.role
+
+            && request.resource.data.email
+               == resource.data.email
+
+            && request.resource.data.uid
+               == resource.data.uid
+          )
+        );
+
+
+      allow delete:
+        if isAdmin();
+
+    }
+
+
+
+    /* =====================================================
+       COURSES
+    ===================================================== */
+
+    match /courses/{courseId} {
+
+      /* Giriş yapan herkes dersleri görebilir */
+      allow read:
+        if signedIn();
+
+
+      /* Öğretmen ve admin ders oluşturabilir */
+      allow create:
+        if isTeacher();
+
+
+      /* Öğretmen/admin düzenleyebilir */
+      allow update:
+        if isTeacher();
+
+
+      /* Öğretmen/admin silebilir */
+      allow delete:
+        if isTeacher();
+
+    }
+
+
+
+    /* =====================================================
+       LESSONS
+    ===================================================== */
+
+    match /lessons/{lessonId} {
+
+      allow read:
+        if signedIn();
+
+
+      allow create:
+        if isTeacher();
+
+
+      allow update:
+        if isTeacher();
+
+
+      allow delete:
+        if isTeacher();
+
+    }
+
+
+
+    /* =====================================================
+       TESTS
+    ===================================================== */
+
+    match /tests/{testId} {
+
+      /*
+       * Test soruları istemciye geldiği için
+       * okuma yetkisi giriş yapan kullanıcılara veriliyor.
+       */
+      allow read:
+        if signedIn();
+
+
+      allow create:
+        if isTeacher();
+
+
+      allow update:
+        if isTeacher();
+
+
+      allow delete:
+        if isTeacher();
+
+    }
+
+
+
+    /* =====================================================
+       RESULTS
+    ===================================================== */
+
+    match /results/{resultId} {
+
+      /*
+       * Öğrenci yalnızca kendi adına sonuç oluşturabilir.
+       */
+      allow create:
+        if signedIn()
+        && request.resource.data.studentId
+           == request.auth.uid;
+
+
+      /*
+       * Öğrenci kendi sonucunu,
+       * öğretmen/admin bütün sonuçları okuyabilir.
+       */
+      allow read:
+        if signedIn()
+        && (
+          resource.data.studentId
+          == request.auth.uid
+
+          || isTeacher()
+        );
+
+
+      allow update:
+        if isTeacher();
+
+
+      allow delete:
+        if isTeacher();
+
+    }
+
+
+
+    /* =====================================================
+       ANNOUNCEMENTS
+    ===================================================== */
+
+    match /announcements/{announcementId} {
+
+      /* Tüm giriş yapmış kullanıcılar duyuruyu görür */
+      allow read:
+        if signedIn();
+
+
+      allow create:
+        if isTeacher();
+
+
+      allow update:
+        if isTeacher();
+
+
+      allow delete:
+        if isTeacher();
+
+    }
+
+  }
+}
