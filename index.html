@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beray | Öğrenci & Öğretmen</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="brand">
+      <div class="brand-mark">B</div>
+      <div>
+        <h1>Beray</h1>
+        <p>Öğrenci & Öğretmen Sistemi</p>
+      </div>
+    </header>
+
+    <section id="roleScreen" class="screen active">
+      <div class="hero">
+        <span class="eyebrow">BERAY PLATFORMU</span>
+        <h2>Siz Kimsiniz?</h2>
+        <p>Devam etmek için kullanıcı tipinizi seçin.</p>
+      </div>
+
+      <div class="role-grid">
+        <button class="role-card student" id="studentRoleBtn">
+          <span class="role-icon">👥</span>
+          <span class="role-title">Öğrenciyim</span>
+          <span class="role-text">Ders desteği almak için devam et</span>
+        </button>
+
+        <button class="role-card teacher" id="teacherRoleBtn">
+          <span class="role-icon">👤</span>
+          <span class="role-title">Öğretmenim</span>
+          <span class="role-text">Öğretmen başvurusu yapmak için devam et</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="studentScreen" class="screen">
+      <button class="back-btn" data-back>← Geri</button>
+      <div class="panel">
+        <span class="eyebrow">ÖĞRENCİ</span>
+        <h2>Öğrenci Paneli</h2>
+        <p class="muted">Google hesabınla giriş yap, ardından bilgilerini tamamla.</p>
+
+        <button id="studentGoogleBtn" class="google-btn">G ile Google İle Devam Et</button>
+
+        <div id="studentFormWrap" class="hidden">
+          <div class="account-box" id="studentAccountBox"></div>
+
+          <label for="studentName">İsim Soyisim</label>
+          <input id="studentName" type="text" maxlength="100" placeholder="Örn. Beray Yılmaz">
+
+          <label for="studentClass">Sınıf</label>
+          <select id="studentClass">
+            <option value="">Sınıf seç</option>
+          </select>
+
+          <button id="studentSaveBtn" class="primary-btn">Öğrenci Profilini Kaydet</button>
+          <button id="studentLogoutBtn" class="secondary-btn">Google Hesabından Çıkış</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="teacherScreen" class="screen">
+      <button class="back-btn" data-back>← Geri</button>
+      <div class="panel">
+        <span class="eyebrow">ÖĞRETMEN</span>
+        <h2>Öğretmen Başvurusu</h2>
+        <p class="muted">Google hesabınla doğrulandıktan sonra başvuru bilgilerini doldur.</p>
+
+        <button id="teacherGoogleBtn" class="google-btn">G ile Google Hesabını Seç</button>
+
+        <div id="teacherFormWrap" class="hidden">
+          <div class="account-box" id="teacherAccountBox"></div>
+
+          <label for="teacherName">İsim Soyisim</label>
+          <input id="teacherName" type="text" maxlength="100" placeholder="Örn. Ayşe Yılmaz">
+
+          <label for="teacherPhone">Telefon Numarası</label>
+          <input id="teacherPhone" type="tel" maxlength="30" placeholder="05xx xxx xx xx">
+
+          <label>Hangi Sınıflara Destek Verebilirsiniz?</label>
+          <div id="classChecks" class="check-grid"></div>
+
+          <label>Hangi Dersler Size Uygundur?</label>
+          <div id="subjectChecks" class="check-grid"></div>
+
+          <button id="teacherApplyBtn" class="primary-btn">Başvuru Oluştur</button>
+          <button id="teacherLogoutBtn" class="secondary-btn">Google Hesabından Çıkış</button>
+
+          <div id="teacherStatus" class="status-box hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="studentDoneScreen" class="screen">
+      <div class="success-card">
+        <div class="success-icon">✓</div>
+        <h2>Öğrenci Kaydı Hazır 🎉</h2>
+        <p>Profilin Firestore'a kaydedildi. Sonraki aşamada öğretmen arama ve mesajlaşma ekranı eklenecek.</p>
+        <button id="studentDoneBackBtn" class="primary-btn">Ana Ekrana Dön</button>
+      </div>
+    </section>
+
+    <section id="teacherDoneScreen" class="screen">
+      <div class="success-card">
+        <div class="success-icon">✓</div>
+        <h2>Başvurun Alındı ✅</h2>
+        <p>Başvurun Firestore'a gönderildi. Bu aşamada öğretmen başvurusu admin incelemesine hazırdır.</p>
+        <p class="small-note">2. doğrulama yöntemi bu pakette ayrıca açıklanmıştır.</p>
+        <button id="teacherDoneBackBtn" class="primary-btn">Ana Ekrana Dön</button>
+      </div>
+    </section>
+
+    <div id="toast" class="toast"></div>
+
+    <footer>Beray Katkılarıyla • From Beray</footer>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
