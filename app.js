@@ -241,184 +241,156 @@ if (isIndex && $("loginForm")) {
     });
 
 
-    /* KAYIT */
+    ```javascript
+/* KAYIT */
 
-    registerForm.addEventListener("submit", async (event) => {
+registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        event.preventDefault();
+    const errorBox = $("authMessage");
 
-        const errorBox = $("authMessage");
-
+    if (errorBox) {
+        errorBox.textContent = "";
         hide(errorBox);
+    }
 
-        const name =
-            $("registerName")
-                ?.value
-                .trim();
+    // Form alanlarını güvenli şekilde al
+    const nameInput = $("registerName");
+    const emailInput = $("registerEmail");
+    const passwordInput = $("registerPassword");
+    const confirmInput = $("registerPasswordConfirm");
+    const termsInput = $("terms");
 
-        const email =
-            $("registerEmail")
-                ?.value
-                .trim()
-                .toLowerCase();
+    const name = nameInput?.value?.trim() || "";
+    const email = emailInput?.value?.trim().toLowerCase() || "";
+    const password = passwordInput?.value || "";
+    const confirmPassword = confirmInput?.value || "";
+    const termsAccepted = termsInput?.checked === true;
 
-        const password =
-            $("registerPassword")
-                ?.value || "";
+    // Alan kontrolü
+    if (!name) {
+        if (errorBox) {
+            errorBox.textContent = "Ad Soyad alanını doldur.";
+            show(errorBox);
+        }
+        nameInput?.focus();
+        return;
+    }
 
-        const confirmPassword =
-            $("registerPasswordConfirm")
-                ?.value || "";
+    if (!email) {
+        if (errorBox) {
+            errorBox.textContent = "E-posta alanını doldur.";
+            show(errorBox);
+        }
+        emailInput?.focus();
+        return;
+    }
 
+    if (!password) {
+        if (errorBox) {
+            errorBox.textContent = "Şifre alanını doldur.";
+            show(errorBox);
+        }
+        passwordInput?.focus();
+        return;
+    }
 
-        if (!name || !email || !password || !confirmPassword) {
+    if (!confirmPassword) {
+        if (errorBox) {
+            errorBox.textContent = "Şifre tekrar alanını doldur.";
+            show(errorBox);
+        }
+        confirmInput?.focus();
+        return;
+    }
 
-            if (errorBox) {
+    if (!termsAccepted) {
+        if (errorBox) {
+            errorBox.textContent =
+                "Kayıt olmak için kullanım şartlarını kabul etmelisin.";
+            show(errorBox);
+        }
+        termsInput?.focus();
+        return;
+    }
 
-                errorBox.textContent =
-                    "Lütfen bütün alanları doldur.";
+    if (name.length < 2) {
+        if (errorBox) {
+            errorBox.textContent = "Ad Soyad en az 2 karakter olmalı.";
+            show(errorBox);
+        }
+        return;
+    }
 
-                show(errorBox);
+    if (password.length < 6) {
+        if (errorBox) {
+            errorBox.textContent = "Şifre en az 6 karakter olmalı.";
+            show(errorBox);
+        }
+        passwordInput?.focus();
+        return;
+    }
 
+    if (password !== confirmPassword) {
+        if (errorBox) {
+            errorBox.textContent = "Şifreler eşleşmiyor.";
+            show(errorBox);
+        }
+        confirmInput?.focus();
+        return;
+    }
+
+    try {
+        // Firebase hesabını oluştur
+        const credential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        const firebaseUser = credential.user;
+
+        // Kullanıcı adını Firebase'e kaydet
+        await updateProfile(firebaseUser, {
+            displayName: name
+        });
+
+        // Firestore kullanıcı profilini oluştur
+        await setDoc(
+            doc(db, "users", firebaseUser.uid),
+            {
+                uid: firebaseUser.uid,
+                name: name,
+                email: email,
+                role: "student",
+                points: 0,
+                completedLessons: [],
+                completedTests: [],
+                createdAt: serverTimestamp()
             }
+        );
 
-            return;
+        // Başarılı
+        if (errorBox) {
+            errorBox.textContent =
+                "✅ Hesabın başarıyla oluşturuldu! Giriş yapabilirsin.";
+            show(errorBox);
         }
 
+        // Formu temizle
+        registerForm.reset();
 
-        if (name.length < 2) {
+    } catch (error) {
+        console.error("Kayıt hatası:", error);
 
-            if (errorBox) {
-                errorBox.textContent =
-                    "Ad soyad çok kısa.";
-
-                show(errorBox);
-            }
-
-            return;
-
+        if (errorBox) {
+            errorBox.textContent = authErrorMessage(error);
+            show(errorBox);
         }
+    }
+});
+```
 
-
-        if (password.length < 6) {
-
-            if (errorBox) {
-                errorBox.textContent =
-                    "Şifre en az 6 karakter olmalı.";
-
-                show(errorBox);
-            }
-
-            return;
-
-        }
-
-
-        if (password !== confirmPassword) {
-
-            if (errorBox) {
-                errorBox.textContent =
-                    "Şifreler eşleşmiyor.";
-
-                show(errorBox);
-            }
-
-            return;
-
-        }
-
-
-        try {
-
-            const credential =
-                await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-
-            const firebaseUser =
-                credential.user;
-
-
-            await updateProfile(
-                firebaseUser,
-                {
-                    displayName: name
-                }
-            );
-
-
-            /*
-             * Öğrencinin Firestore profilini oluştur.
-             */
-            await setDoc(
-                doc(
-                    db,
-                    "users",
-                    firebaseUser.uid
-                ),
-                {
-
-                    uid:
-                        firebaseUser.uid,
-
-                    name:
-
-                        name,
-
-                    email:
-
-                        email,
-
-                    role:
-                        "student",
-
-                    points:
-                        0,
-
-                    completedLessons:
-                        [],
-
-                    completedTests:
-                        [],
-
-                    createdAt:
-                        serverTimestamp()
-
-                }
-            );
-
-
-            /*
-             * Her şey başarılıysa doğrudan
-             * öğrenci paneline git.
-             */
-            window.location.href =
-                "./student.html";
-
-
-        } catch (error) {
-
-            console.error(
-                "Kayıt hatası:",
-                error
-            );
-
-
-            if (errorBox) {
-
-                errorBox.textContent =
-                    authErrorMessage(error);
-
-                show(errorBox);
-
-            }
-
-        }
-
-    });
 
 
     /* ŞİFRE GÖSTER */
