@@ -1,0 +1,117 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function currentUser() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return signedIn() && currentUser().data.role == "admin";
+    }
+
+    function isTeacher() {
+      return signedIn() && currentUser().data.role in ["teacher", "admin"];
+    }
+
+    function isOwner(resourceData) {
+      return signedIn() && resourceData.teacherId == request.auth.uid;
+    }
+
+    function validHttpsUrl(value) {
+      return value == "" || value.matches("^https://[^\\s]+$");
+    }
+
+    function validGrade(value) {
+      return value == "" || value in ["5","6","7","8","9","10","11","12"];
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == "student"
+        && request.resource.data.uid == userId
+        && request.resource.data.email == request.auth.token.email;
+
+      allow read: if signedIn()
+        && (request.auth.uid == userId || isTeacher());
+
+      // Profile changes are server-controlled. Role/progress changes are done by Cloud Functions.
+      allow update, delete: if false;
+    }
+
+    match /courses/{courseId} {
+      allow read: if signedIn();
+      allow create: if isTeacher()
+        && request.resource.data.teacherId == request.auth.uid
+        && validGrade(request.resource.data.grade)
+        && validHttpsUrl(request.resource.data.videoUrl)
+        && validHttpsUrl(request.resource.data.fileUrl)
+        && validHttpsUrl(request.resource.data.wordwallUrl);
+      allow update: if isAdmin() || (
+        isTeacher() && resource.data.teacherId == request.auth.uid
+        && request.resource.data.teacherId == resource.data.teacherId
+        && validGrade(request.resource.data.grade)
+        && validHttpsUrl(request.resource.data.videoUrl)
+        && validHttpsUrl(request.resource.data.fileUrl)
+        && validHttpsUrl(request.resource.data.wordwallUrl)
+      );
+      allow delete: if isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid);
+    }
+
+    match /lessons/{lessonId} {
+      allow read: if signedIn();
+      allow create: if isTeacher()
+        && request.resource.data.teacherId == request.auth.uid
+        && validGrade(request.resource.data.grade)
+        && validHttpsUrl(request.resource.data.videoUrl)
+        && validHttpsUrl(request.resource.data.fileUrl)
+        && validHttpsUrl(request.resource.data.wordwallUrl);
+      allow update: if isAdmin() || (
+        isTeacher() && resource.data.teacherId == request.auth.uid
+        && request.resource.data.teacherId == resource.data.teacherId
+        && validGrade(request.resource.data.grade)
+        && validHttpsUrl(request.resource.data.videoUrl)
+        && validHttpsUrl(request.resource.data.fileUrl)
+        && validHttpsUrl(request.resource.data.wordwallUrl)
+      );
+      allow delete: if isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid);
+    }
+
+    match /tests/{testId} {
+      // Public test document MUST contain only question/options. Answer keys live elsewhere.
+      allow read: if signedIn();
+      allow create, update, delete: if false;
+    }
+
+    match /testAnswers/{testId} {
+      // Answer keys are server-only. Cloud Functions use Admin SDK and bypass these rules.
+      allow read, write: if false;
+    }
+
+    match /results/{resultId} {
+      // Results are created and finalized only by the server.
+      allow create, update, delete: if false;
+      allow read: if signedIn()
+        && (resource.data.studentId == request.auth.uid || isTeacher());
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if signedIn();
+      allow create: if isTeacher()
+        && request.resource.data.teacherId == request.auth.uid;
+      allow update: if isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid
+        && request.resource.data.teacherId == resource.data.teacherId);
+      allow delete: if isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
