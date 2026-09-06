@@ -340,72 +340,165 @@ const READY_CURRICULUM = [
 
 
 function makeChoices(correct, distractors) {
-  const unique = [...new Set([correct, ...distractors])].slice(0, 4);
-  const answer = unique.indexOf(correct);
+  const unique = [...new Set([String(correct), ...distractors.map(String)])].slice(0, 4);
+  const answer = unique.indexOf(String(correct));
   return { options: unique, correctAnswer: answer };
 }
 
+function stableIndex(text, length) {
+  let hash = 0;
+  for (const char of String(text)) hash = ((hash << 5) - hash + char.charCodeAt(0)) | 0;
+  return Math.abs(hash) % length;
+}
+
+function makeStudyJoke(subject, title) {
+  const key = `${subject}|${title}`;
+  const pools = {
+    "matematik": [
+      "Bu konuda x bile senden önce yerini bulmuş olabilir. 😐",
+      "Matematikte bilinmeyen çok; ama bahaneye denklem açılmıyor. 🥶",
+      "Sayılar arası ilişkiyi kurduk. Sosyal hayat hâlâ bilinmiyor. 😶‍🌫️"
+    ],
+    "fen bilimleri": [
+      "Bilim açıklamayı sever; bahane üretmeyi değil. 🧪",
+      "Bu konu deney istiyor. Senin uykun da kontrol grubunda galiba. 🥶",
+      "Sebep-sonuç belli. Tek belirsiz değişken sensin. 😐"
+    ],
+    "tarih": [
+      "Tarih tekerrür eder; test de tekrar çözülür. 🥶",
+      "Geçmişe bakıyoruz çünkü geleceği tahmin etmek bazen yetmiyor. 😐",
+      "Bu konuyu unutursan tarih seni de kronolojiye ekler. 🗿"
+    ],
+    "t.c. inkılap tarihi ve atatürkçülük": [
+      "Kronoloji karışırsa tarih değil, sen zaman yolculuğu yapmış olursun. 🥶",
+      "Olayların sırası önemli. Beynin 'ben karıştırırım' diyorsa iyi bak. 😐",
+      "Millî Mücadele uzun sürdü; bu test kısa. Mazeret sayılmıyor. 🥶"
+    ],
+    "coğrafya": [
+      "Harita yön gösterir; cevabı direkt söylemez. Keşke söylese. 🗺️🥶",
+      "Nerede, neden orada, sonucu ne? Coğrafya bile dedikodu yapar gibi çalışıyor. 😐",
+      "Dağılış belli. Dikkatin nerede, onu bulalım. 🥶"
+    ],
+    "ingilizce": [
+      "İngilizce'de tense var; test sonunda senin de biraz tense olman normal. 🥶",
+      "Kelimeler kaçmıyor. Ama yanlış seçenekler fazla özgüvenli. 😐",
+      "Cümle doğru, hayat yanlış olabilir. Dil bilgisinde sorun yok. 🥶"
+    ],
+    "türkçe": [
+      "Noktalama işaretleri bile senden daha düzenli görünmek zorunda değil. 🥶",
+      "Anlamı buluyoruz. Virgül bile bugün senden daha kararlı. 😐",
+      "Paragraf uzun olabilir; sabır kısmı ücretsiz. 🥶"
+    ],
+    "türk dili ve edebiyatı": [
+      "Edebiyatta anlam derin; bu testin bahaneleri yüzeysel. 🥶",
+      "Metni yorumla, moralini değil. 😐",
+      "Türü bulmak kolay; zor olan 'ben bunu biliyordum' dememek. 🥶"
+    ],
+    "biyoloji": [
+      "Hücreler görevini biliyor. Sen de görevini biliyorsun: soruyu çöz. 🥶",
+      "Canlılar uyum sağlar; sen de yanlışlarına uyum sağlama. 😐",
+      "Yapı-görev ilişkisi sağlam. Bahane-görev ilişkisi zayıf. 🥶"
+    ],
+    "fizik": [
+      "Fizikte kuvvet var. Bu testte kullanman gereken kuvvet: dikkat. 🥶",
+      "Birimler yerinde. Panik yapmanın birimi hâlâ yok. 😐",
+      "Formül kısa, dikkat uzun. Fizik böyle küçük bir şaka yapıyor. 🥶"
+    ],
+    "kimya": [
+      "Kimya karışım sevmeyi öğretir; seçenekleri değil. 🥶",
+      "Tepkime var, sonuç var. Rastgele işaretleme yok. 😐",
+      "Maddeler değişiyor. Cevapların da değişmesin diye dikkat et. 🥶"
+    ],
+    "din kültürü ve ahlak bilgisi": [
+      "Kavramlar önemli. Test de hafızanın küçük bir ahlak sınavı gibi. 🥶",
+      "Anlamı bil, ezberi yönet. Çünkü seçenekler de seni tanıyor. 😐",
+      "Bu konuda dikkat seviyesi ibreyi yukarı taşır. Telekinezi gerekmez. 🥶"
+    ],
+    "felsefe": [
+      "Felsefede soru çok. Cevap sayısı biraz daha kontrollü olsun. 🥶",
+      "Düşünüyoruz. Evet, bu testte gerçekten düşünmeniz gerekiyor. 😐",
+      "Bir görüşü bilmek güzel; nedenini bilmek daha az soğuk. 🥶"
+    ]
+  };
+  const pool = pools[subject.toLocaleLowerCase("tr-TR")] || [
+    "Konu ciddi. Espri soğuk. Dikkat sıcak kalsın. 🥶",
+    "Bu test bilgini ölçüyor; özgüvenini değil. Gerçi ikisi de çıkabilir. 😐",
+    "Dersi öğrendiysen harika. Şimdi seçeneklere fazla artistlik yaptırma. 🥶"
+  ];
+  return pool[stableIndex(key, pool.length)];
+}
+
 function makePracticeQuestions(item) {
-  const points = Array.isArray(item.keyPoints) ? item.keyPoints : [];
+  const points = Array.isArray(item.keyPoints) ? item.keyPoints.map(String).filter(Boolean) : [];
   const existing = Array.isArray(item.quiz) ? item.quiz : [];
   const title = item.title;
   const q = [];
 
-  if (existing[0]) {
-    const correct = String(existing[0][1]);
-    const c = makeChoices(correct, [
-      "Konuyla ilgisi olmayan ayrıntıları ezberlemek.",
+  const add = (question, correct, distractors, focus) => {
+    const c = makeChoices(correct, distractors);
+    q.push({ question, options: c.options, correctAnswer: c.correctAnswer, focus: focus || title });
+  };
+
+  existing.slice(0, 3).forEach((entry, index) => {
+    if (!entry) return;
+    const correct = String(entry[1]);
+    const fallbackDistractors = [
+      "Konuyla ilgisi olmayan bir bilgiyi seçmek.",
       "Soruyu okumadan rastgele cevap vermek.",
-      "Yalnızca başlığı bilmek."
-    ]);
-    q.push({ question: existing[0][0], options: c.options, correctAnswer: c.correctAnswer });
-  }
-
-  if (existing[1]) {
-    const correct = String(existing[1][1]);
-    const c = makeChoices(correct, [
-      "Sadece sonucu tahmin etmek.",
-      "Konuyu başka derslerden tamamen ayırmak.",
-      "Soruyu hiç kontrol etmemek."
-    ]);
-    q.push({ question: existing[1][0], options: c.options, correctAnswer: c.correctAnswer });
-  }
-
-  if (existing[2]) {
-    const correct = String(existing[2][1]);
-    const c = makeChoices(correct, [
-      "Sadece ezber yapmak.",
-      "Konuyu yarıda bırakmak.",
-      "Önemli kavramları karıştırmak."
-    ]);
-    q.push({ question: existing[2][0], options: c.options, correctAnswer: c.correctAnswer });
-  }
-
-  const point = points[0] || "Temel kavramları öğrenmek";
-  let c = makeChoices(point, [
-    "Konuyu hiç incelemeden cevap vermek",
-    "Sadece sonuca bakmak",
-    "Bütün kavramları rastgele sıralamak"
-  ]);
-  q.push({
-    question: `“${title}” ünitesinde aşağıdakilerden hangisi çalışmanın temel hedeflerinden biridir?`,
-    options: c.options,
-    correctAnswer: c.correctAnswer
+      "Sadece başlığı bilmenin yeterli olduğunu düşünmek.",
+      "Önemli kavramları birbirine karıştırmak.",
+      "Sonucu kontrol etmeden işaretlemek."
+    ];
+    add(entry[0], correct, fallbackDistractors.slice(index, index + 3).concat(fallbackDistractors.slice(0, index)).slice(0, 3), points[index] || title);
   });
 
-  const point2 = points[1] || "Kavramlar arasındaki ilişkileri kurmak";
-  c = makeChoices(point2, [
-    "Bilgileri birbirinden kopuk ezberlemek",
-    "Sorunun tamamını okumadan işlem yapmak",
-    "Öğrendiklerini kontrol etmemek"
-  ]);
-  q.push({
-    question: `“${title}” çalışırken aşağıdakilerden hangisi önerilir?`,
-    options: c.options,
-    correctAnswer: c.correctAnswer
+  // Ünitedeki anahtar noktaların her birini doğrudan ölçen 6 soru daha oluştur.
+  points.slice(0, 6).forEach((point, index) => {
+    const distractors = points.filter((other, i) => i !== index).slice(0, 3);
+    add(
+      `“${title}” konusunda aşağıdakilerden hangisi özellikle bilinmelidir?`,
+      point,
+      distractors.length >= 3
+        ? distractors
+        : [
+            "Konuyu hiç çalışmadan cevap vermek.",
+            "Sadece başlığı ezberlemek.",
+            "Öğrendiğini kontrol etmemek."
+          ],
+      point
+    );
   });
 
-  return q.slice(0, 5);
+  // Her ünitede toplam 10 soru garanti edilir.
+  const fallbacks = [
+    [
+      `“${title}” çalışırken en iyi yaklaşım hangisidir?`,
+      "Kavramı anlayıp kısa bir örnekle kontrol etmek.",
+      ["Soruyu okumadan seçenek işaretlemek", "Sadece başlığı ezberlemek", "Yanlışları hiç incelememek"]
+    ],
+    [
+      `“${title}” konusunda kendini gerçekten öğrendiğini nasıl anlarsın?`,
+      "Konuyu kendi cümlelerinle açıklayıp soru çözebildiğinde.",
+      ["Sadece notları tekrar okuyunca", "Cevabı görünce hatırlayınca", "Başlığı tanıyınca"]
+    ],
+    [
+      `“${title}” testinde yanlış yaptığında ilk neye bakmalısın?`,
+      "Yanlış yaptığın kavramı bulup neden karıştırdığını incelemelisin.",
+      ["Soruyu hemen geçmelisin", "Sadece puana bakmalısın", "Yanlışı ezberleyip devam etmelisin"]
+    ],
+    [
+      `“${title}” için sınav öncesi en yararlı tekrar hangisidir?`,
+      "Anahtar noktaları kısa tekrar edip ardından soru çözmek.",
+      ["Sadece başlığı okumak", "Hiç soru çözmemek", "Bütün kitabı son dakikada ezberlemek"]
+    ]
+  ];
+
+  for (const item of fallbacks) {
+    if (q.length >= 10) break;
+    add(item[0], item[1], item[2], points[q.length % Math.max(points.length, 1)] || title);
+  }
+
+  return q.slice(0, 10);
 }
 
 export const READY_COURSES = Array.from(
@@ -440,11 +533,12 @@ export const READY_COURSES = Array.from(
 export const READY_TESTS = READY_CURRICULUM.map((item) => ({
   id: `ready-${item.id}`,
   title: `${item.grade}. Sınıf ${item.subject} ${item.unit}`,
-  description: `🧠 ${item.title} ünitesi için 5 soruluk çalışma testi.`,
+  description: `🧠 ${item.title} ünitesi için 10 soruluk öğrenme testi. ${makeStudyJoke(item.subject, item.title)}`,
   grade: item.grade,
   subject: item.subject,
   unit: item.unit,
   isReadyCurriculumTest: true,
+  joke: makeStudyJoke(item.subject, item.title),
   questions: makePracticeQuestions(item)
 }));
 

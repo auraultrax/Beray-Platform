@@ -1959,6 +1959,7 @@ async function startStudentQuiz(test) {
                 <div>
                     <span class="eyebrow">TEST</span>
                     <h1>${escapeHTML(test.title)}</h1>
+                    ${test.joke ? `<p class="muted" style="margin-top:6px">🥶 ${escapeHTML(test.joke)}</p>` : ""}
                 </div>
                 <strong>${currentQuestion + 1} / ${total}</strong>
             </div>
@@ -2034,14 +2035,33 @@ async function startStudentQuiz(test) {
             const score = Number(data.score || 0);
             const correct = Number(data.correct || 0);
             const pointsAwarded = Number(data.pointsAwarded || 0);
+            const wrongFocus = isReadyTest
+                ? [...new Set(test.questions
+                    .map((q, index) => Number(answers[index]) !== Number(q.correctAnswer) ? q.focus : "")
+                    .filter(Boolean))]
+                : [];
+
+            const feedback = score >= 90
+                ? "🔥 Konuyu çok sağlam kavramışsın. Şimdi zorlayıcı sorulara geçebilirsin."
+                : score >= 80
+                    ? "💪 Temel çok iyi. Birkaç ayrıntıyı daha oturtursan konu iyice kapanır."
+                    : score >= 60
+                        ? "🧠 Konunun ana fikri var ama bazı noktalar karışıyor. Özellikle yanlış yaptığın başlıklara tekrar bak."
+                        : "📚 Bu konu için kısa bir tekrar şart. Önce özet noktaları oku, sonra testi yeniden çöz.";
+            const focusText = wrongFocus.length
+                ? `<p class="muted" style="margin-top:10px"><strong>🔎 Şunlara iyi bak:</strong> ${escapeHTML(wrongFocus.slice(0, 4).join(" • "))}</p>`
+                : `<p class="muted" style="margin-top:10px">✅ Yanlış odak alanı çıkmadı. Konuyu bir kez daha kendi cümlelerinle anlatmayı dene.</p>`;
 
             $("quizBox").innerHTML = `
                 <div class="quiz-result">
                     <div class="result-icon">${score >= 80 ? "🏆" : score >= 50 ? "⭐" : "📚"}</div>
                     <h1>Test Tamamlandı</h1>
-                    <p class="muted">${correct} / ${total} doğru cevap</p>
+                    <p class="muted">${correct} / ${total} doğru cevap • ${total - correct} yanlış</p>
                     <strong class="big-score">${score}%</strong>
-                    ${isReadyTest ? '<p class="yellow-text">🧠 Çalışma testi — puan kazandırmaz.</p>' : `<p class="yellow-text">+${pointsAwarded} puan</p>`}
+                    <p>${escapeHTML(feedback)}</p>
+                    ${focusText}
+                    ${test.joke ? `<p class="yellow-text">🥶 ${escapeHTML(test.joke)}</p>` : ""}
+                    ${isReadyTest ? '<p class="yellow-text">🧠 Öğrenme testi — amaç konuyu gerçekten kavramanı görmek.</p>' : `<p class="yellow-text">+${pointsAwarded} puan</p>`}
                     <button id="quizReturn" class="primary-button">Testlere Dön</button>
                 </div>
             `;
